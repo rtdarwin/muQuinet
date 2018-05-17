@@ -1,0 +1,9 @@
+build.debug/
+build.release/
+
+*~
+*.swp
+
+GPATH
+GRTAGS
+GTAGS
