@@ -1,0 +1,106 @@
+syntax = "proto2";
+
+message Request {
+
+  ////////////////////////////////
+  // Nested Message Types
+
+  // 1
+  message Socket {
+    required int32 domain = 1;
+    required int32 type = 2;
+    required int32 protocol = 3;
+  }
+
+  // 2
+  message Connect {
+    required bytes addr = 1;
+  }
+
+  // 3
+  message Close {
+  }
+
+  // 4
+  message Recvfrom {
+    required int32 len = 1;
+    required int32 flags = 2;
+    required bool requireAddr = 3;
+  }
+
+  // 5
+  message Sendto {
+    required bytes buf = 1;
+    required int32 flags = 2;
+    optional bytes addr = 3;
+  }
+
+  // 6
+  message Poll {
+  }
+
+  // 7
+  message Select {
+  }
+
+  // 8
+  message Getpeername {
+  }
+
+  // 9
+  message Getsockname {
+  }
+
+  // 10
+  message Getsockopt {
+  }
+
+  // 11
+  message Setsockopt {
+  }
+
+  // 12
+  message Fcntl {
+  }
+
+  // 16
+  message Atstart {
+    // program_invocation_short_name
+    required string progname = 1;
+  }
+  
+  // 17
+  message Atfork {
+  }
+
+  // 18
+  message Atexit {
+  }
+
+  ////////////////////////////////
+  // Fields
+
+  oneof calling{
+    Socket socketCall = 1;
+    Connect connectCall = 2;
+    Close closeCall = 3;
+    Recvfrom recvfromCall = 4;
+    Sendto sendtoCall = 5;
+    Poll pollCall = 6;
+    Select selectCall = 7;
+    Getpeername getpeernameCall = 8;
+    Getsockname getsocknameCall = 9;
+    Getsockopt getsockoptCall = 10;
+    Setsockopt setsockoptCall = 11;
+    Fcntl fcntlCall = 12;
+
+    Atstart atstartAction = 16;
+    Atfork atforkAction = 17;
+    Atexit atexitAction =  18;
+  }
+
+  // 多个进程同时引用一个 channel 时（fork 导致），
+  // muQuinetd 使用 pid 来辨别具体是哪个进程发起的 Request
+  // pid_t is not always int32
+  required uint64 pid = 15;
+}

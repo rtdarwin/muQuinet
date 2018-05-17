@@ -1,0 +1,12 @@
+#ifndef MUQUINET_H
+#define MUQUINET_H
+
+#define MUQUINET_VERSION "@PROJECT_VERSION@"
+
+const char*
+muquinet_version()
+{
+    return MUQUINET_VERSION;
+}
+
+#endif // MUQUINET_H

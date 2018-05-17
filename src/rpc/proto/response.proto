@@ -1,0 +1,128 @@
+syntax = "proto2";
+
+message Response {
+
+  ////////////////////////////////
+  // Nested Message Types
+
+  // 1
+  message Socket {
+    required int32 ret = 1;
+    // postfix _ to avoid name conflict in C language
+    optional int32 errno_ = 2;
+  }
+
+  // 2
+  message Connect {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 3
+  message Close {
+   required int32 ret = 1;
+   optional int32 errno_ = 2;
+  }
+
+  // 4
+  message Recvfrom {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+    optional bytes buf = 3;
+    optional bytes addr = 4;
+  }
+
+  // 5
+  message Sendto {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 6
+  message Poll {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 7
+  message Select {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 8
+  message Getpeername {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+    optional bytes peername = 3;
+  }
+
+  // 9
+  message Getsockname {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+    optional bytes sockanme = 3;
+  }
+
+  // 10
+  message Getsockopt {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 11
+  message Setsockopt {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 12
+  message Fcntl {
+    required int32 ret = 1;
+    optional int32 errno_ = 2;
+  }
+
+  // 16
+  message Atstart {
+    required int32 startfd = 1;
+    optional int32 count = 2;
+  }
+  
+  // 17
+  message Atfork {
+  }
+
+  // 18
+  message Atexit {
+  }
+
+  ////////////////////////////////
+  // Fields
+
+  oneof returning{
+    Socket socketCall = 1;
+    Connect connectCall = 2;
+    Close closeCall = 3;
+    Recvfrom recvfromCall = 4;
+    Sendto sendtoCall = 5;
+    Poll pollCall = 6;
+    Select selectCall = 7;
+    Getpeername getpeernameCall = 8;
+    Getsockname getsocknameCall = 9;
+    Getsockopt getsockoptCall = 10;
+    Setsockopt setsockoptCall = 11;
+    Fcntl fcntlCall = 12;
+
+    Atstart atstartAction = 16;
+    Atfork atforkAction = 17;
+    Atexit atexitAction =  18;
+  }
+
+  enum RetCode {
+    OK = 0;
+    ERROR = 1;
+    WAIT_NEXT = 2;
+  }
+
+  required RetCode retCode = 15;
+}
