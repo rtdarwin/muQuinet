@@ -30,12 +30,13 @@ public:
     // let compiler generate ctor/dctor
 
     // override functions
-    virtual __be16 nextAvailLocalPort() override;
     virtual int send(const std::string& buf) override;
     virtual int send(const struct in_addr& faddr, __be16 fport,
                      const std::string& buf) override;
     virtual void recv(struct sockaddr_in& peeraddr,
                       const std::shared_ptr<SocketBuffer>&) override;
+
+    virtual __be16 nextAvailLocalPort() override;
 };
 
 #endif

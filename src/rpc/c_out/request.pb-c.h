@@ -29,8 +29,6 @@ typedef struct _Request__Getsockopt Request__Getsockopt;
 typedef struct _Request__Setsockopt Request__Setsockopt;
 typedef struct _Request__Fcntl Request__Fcntl;
 typedef struct _Request__Atstart Request__Atstart;
-typedef struct _Request__Atfork Request__Atfork;
-typedef struct _Request__Atexit Request__Atexit;
 
 
 /* --- enums --- */
@@ -209,30 +207,6 @@ struct  _Request__Atstart
     , NULL }
 
 
-/*
- * 17
- */
-struct  _Request__Atfork
-{
-  ProtobufCMessage base;
-};
-#define REQUEST__ATFORK__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&request__atfork__descriptor) \
-     }
-
-
-/*
- * 18
- */
-struct  _Request__Atexit
-{
-  ProtobufCMessage base;
-};
-#define REQUEST__ATEXIT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&request__atexit__descriptor) \
-     }
-
-
 typedef enum {
   REQUEST__CALLING__NOT_SET = 0,
   REQUEST__CALLING_SOCKET_CALL = 1,
@@ -248,8 +222,6 @@ typedef enum {
   REQUEST__CALLING_SETSOCKOPT_CALL = 11,
   REQUEST__CALLING_FCNTL_CALL = 12,
   REQUEST__CALLING_ATSTART_ACTION = 16,
-  REQUEST__CALLING_ATFORK_ACTION = 17,
-  REQUEST__CALLING_ATEXIT_ACTION = 18,
 } Request__CallingCase;
 
 struct  _Request
@@ -276,8 +248,6 @@ struct  _Request
     Request__Setsockopt *setsockoptcall;
     Request__Fcntl *fcntlcall;
     Request__Atstart *atstartaction;
-    Request__Atfork *atforkaction;
-    Request__Atexit *atexitaction;
   };
 };
 #define REQUEST__INIT \
@@ -324,12 +294,6 @@ void   request__fcntl__init
 /* Request__Atstart methods */
 void   request__atstart__init
                      (Request__Atstart         *message);
-/* Request__Atfork methods */
-void   request__atfork__init
-                     (Request__Atfork         *message);
-/* Request__Atexit methods */
-void   request__atexit__init
-                     (Request__Atexit         *message);
 /* Request methods */
 void   request__init
                      (Request         *message);
@@ -390,12 +354,6 @@ typedef void (*Request__Fcntl_Closure)
 typedef void (*Request__Atstart_Closure)
                  (const Request__Atstart *message,
                   void *closure_data);
-typedef void (*Request__Atfork_Closure)
-                 (const Request__Atfork *message,
-                  void *closure_data);
-typedef void (*Request__Atexit_Closure)
-                 (const Request__Atexit *message,
-                  void *closure_data);
 typedef void (*Request_Closure)
                  (const Request *message,
                   void *closure_data);
@@ -419,8 +377,6 @@ extern const ProtobufCMessageDescriptor request__getsockopt__descriptor;
 extern const ProtobufCMessageDescriptor request__setsockopt__descriptor;
 extern const ProtobufCMessageDescriptor request__fcntl__descriptor;
 extern const ProtobufCMessageDescriptor request__atstart__descriptor;
-extern const ProtobufCMessageDescriptor request__atfork__descriptor;
-extern const ProtobufCMessageDescriptor request__atexit__descriptor;
 
 PROTOBUF_C__END_DECLS
 

@@ -68,25 +68,25 @@ SelectableChannel::~SelectableChannel()
 }
 
 void
-SelectableChannel::onRead(std::function<void()> callback)
+SelectableChannel::setOnReadCB(std::function<void()> callback)
 {
     _pImpl->onReadFunc = callback;
 }
 
 void
-SelectableChannel::onWrite(std::function<void()> callback)
+SelectableChannel::setOnWriteCB(std::function<void()> callback)
 {
     _pImpl->onWriteFunc = callback;
 }
 
 void
-SelectableChannel::onClose(std::function<void()> callback)
+SelectableChannel::setOnCloseCB(std::function<void()> callback)
 {
     _pImpl->onCloseFunc = callback;
 }
 
 void
-SelectableChannel::onError(std::function<void()> callback)
+SelectableChannel::setOnErrorCB(std::function<void()> callback)
 {
     _pImpl->onErrorFunc = callback;
 }
@@ -148,6 +148,7 @@ SelectableChannel::unregisterSelf()
     if (_pImpl->ownerLoop) {
         _pImpl->ownerLoop->removeChannel(this);
     }
+    _pImpl->ownerLoop = nullptr;
 }
 
 int
@@ -166,25 +167,31 @@ void
 SelectableChannel::handleEventsReceived()
 {
     _pImpl->handlingEvents = true;
-    MUQUINETD_LOG(debug) << "SelectableChannel {fd = " << _pImpl->fd
-                         << "} handling its events";
+    MUQUINETD_LOG(info) << "SelectableChannel {fd = " << _pImpl->fd
+                        << "} handling its events";
 
     int revents = _pImpl->eventsReceived;
 
-    // TODO: log
+    // Steal from muduo,
+    // but not compatile with read/write/exception concept socket(7)
+
     if ((revents & POLLHUP) && !(revents & POLLIN)) {
+        MUQUINETD_LOG(info) << "`close' event";
         if (_pImpl->onCloseFunc)
             _pImpl->onCloseFunc();
     }
     if (revents & (POLLERR | POLLNVAL)) {
+        MUQUINETD_LOG(info) << "`error' event";
         if (_pImpl->onErrorFunc)
             _pImpl->onErrorFunc();
     }
     if (revents & (POLLIN | POLLPRI | POLLRDHUP)) {
+        MUQUINETD_LOG(info) << "`readable' event";
         if (_pImpl->onReadFunc)
             _pImpl->onReadFunc();
     }
     if (revents & POLLOUT) {
+        MUQUINETD_LOG(info) << "`writable' event";
         if (_pImpl->onWriteFunc)
             _pImpl->onWriteFunc();
     }

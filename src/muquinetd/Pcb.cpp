@@ -48,7 +48,10 @@ Pcb::Pcb()
     bzero(&lport, sizeof(__be16));
 }
 
-Pcb::~Pcb() = default;
+Pcb::~Pcb()
+{
+    MUQUINETD_LOG(debug) << "Destroy Pcb";
+}
 
 int
 Pcb::connect(const struct in_addr& faddr, __be16 fport)
@@ -59,6 +62,19 @@ Pcb::connect(const struct in_addr& faddr, __be16 fport)
     if (lport == 0) {
         this->bind();
     }
+
+    return 0;
+}
+
+void
+Pcb::setOnConnEstabCB(const std::function<void()>&)
+{
+}
+
+SelectableChannel*
+Pcb::getConnEstabNotifyChannel()
+{
+    return nullptr;
 }
 
 void
@@ -78,6 +94,7 @@ Pcb::send(const std::string& buf)
     if (fport == 0) {
         return ENOTCONN;
     }
+    return 0;
 }
 
 int
@@ -90,12 +107,13 @@ Pcb::send(const struct in_addr& faddr, __be16 fport, const std::string& buf)
     if (fport != 0) {
         return EISCONN;
     }
+    return 0;
 }
 
 void
 Pcb::recv(const std::shared_ptr<SocketBuffer>&)
 {
-    // TODO
+    // nothing need to do
 }
 
 void
@@ -119,7 +137,7 @@ Pcb::socket()
 }
 
 void
-Pcb::setSocket(const std::shared_ptr<Socket>& so)
+Pcb::setSocket(const std::weak_ptr<Socket>& so)
 {
     _socket = so;
 }

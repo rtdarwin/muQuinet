@@ -23,11 +23,11 @@
 #include <memory>
 
 #include "muquinetd/Ip.h"
+#include "muquinetd/IpHeaderOverlay.h"
 #include "muquinetd/Logging.h"
 #include "muquinetd/SocketBuffer.h"
 #include "muquinetd/Udp.h"
 #include "muquinetd/mux/Socket.h"
-#include "muquinetd/udp/IpHeaderOverlay.h"
 #include "muquinetd/udp/UdpHeader.h"
 
 using std::shared_ptr;
@@ -65,7 +65,7 @@ UdpPcb::send(const std::string& buf)
 
     const auto& skbuf_head = make_shared<SocketBuffer>();
 
-    // SocketBUffer 内各 Header 指针
+    // SocketBuffer 内各 Header 指针
     {
         bzero(skbuf_head->rawBytes, 68);
 
@@ -92,7 +92,7 @@ UdpPcb::send(const std::string& buf)
         udphdr->source = this->lport;
         udphdr->dest = this->fport;
         udphdr->len = htons(buf.length() + 8);
-        bzero(&udphdr->check, sizeof(__be16)); // No UDP checksum
+        bzero(&udphdr->check, sizeof(__be16)); // FIXME: UDP checksum
     }
 
     // 传输层设置的 ``与计算 UDP checksum 无关的'' IP Header
@@ -136,13 +136,15 @@ UdpPcb::send(const struct in_addr& faddr, __be16 fport, const std::string& buf)
 }
 
 void
-UdpPcb::recv(sockaddr_in& peeraddr, const std::shared_ptr<SocketBuffer>& skbuf)
+UdpPcb::recv(struct sockaddr_in& peeraddr,
+             const std::shared_ptr<SocketBuffer>& skbuf)
 {
     // Super class first
     Pcb::recv(peeraddr, skbuf);
 
     skbuf->user_payload_begin = skbuf->transport_hdr + 8;
 
+    // FIXME: race condition with EventLoop thread
     shared_ptr<Socket> socket = this->socket().lock();
     socket->putToRecvQ(peeraddr, skbuf);
 }

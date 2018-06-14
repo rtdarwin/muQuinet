@@ -68,14 +68,6 @@ message Request {
     // program_invocation_short_name
     required string progname = 1;
   }
-  
-  // 17
-  message Atfork {
-  }
-
-  // 18
-  message Atexit {
-  }
 
   ////////////////////////////////
   // Fields
@@ -95,8 +87,6 @@ message Request {
     Fcntl fcntlCall = 12;
 
     Atstart atstartAction = 16;
-    Atfork atforkAction = 17;
-    Atexit atexitAction =  18;
   }
 
   // 多个进程同时引用一个 channel 时（fork 导致），

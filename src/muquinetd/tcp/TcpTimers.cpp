@@ -17,43 +17,4 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MUQUINETD_MUQUINETD_H
-#define MUQUINETD_MUQUINETD_H
-
-#include <memory>
-
-#include "muquinetd/base/Singleton.h"
-
-class muQuinetd : public Singleton<muQuinetd>
-{
-    friend class Singleton<muQuinetd>;
-
-public:
-    enum class exit_status
-    {
-        SUCCESS = 0,
-        FAILURE = 1,
-        BAD_CMDLINE,
-        BAD_CONF_FILE,
-    };
-
-public:
-    void init(int argc, char* argv[]);
-    void run();
-    void stop();
-    void exit(enum exit_status);
-
-private:
-    muQuinetd();
-    ~muQuinetd();
-
-    void readConf(int argc, char* argv[]);
-    void initSignalActions();
-    void initLogging();
-
-private:
-    struct Impl;
-    std::unique_ptr<Impl> _pImpl;
-};
-
-#endif // MUQUINETD_MUQUINETD_H
+#include "muquinetd/tcp/TcpTimers.h"

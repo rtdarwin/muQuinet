@@ -85,18 +85,6 @@ void   request__atstart__init
   static Request__Atstart init_value = REQUEST__ATSTART__INIT;
   *message = init_value;
 }
-void   request__atfork__init
-                     (Request__Atfork         *message)
-{
-  static Request__Atfork init_value = REQUEST__ATFORK__INIT;
-  *message = init_value;
-}
-void   request__atexit__init
-                     (Request__Atexit         *message)
-{
-  static Request__Atexit init_value = REQUEST__ATEXIT__INIT;
-  *message = init_value;
-}
 void   request__init
                      (Request         *message)
 {
@@ -552,43 +540,7 @@ const ProtobufCMessageDescriptor request__atstart__descriptor =
   (ProtobufCMessageInit) request__atstart__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-#define request__atfork__field_descriptors NULL
-#define request__atfork__field_indices_by_name NULL
-#define request__atfork__number_ranges NULL
-const ProtobufCMessageDescriptor request__atfork__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Request.Atfork",
-  "Atfork",
-  "Request__Atfork",
-  "",
-  sizeof(Request__Atfork),
-  0,
-  request__atfork__field_descriptors,
-  request__atfork__field_indices_by_name,
-  0,  request__atfork__number_ranges,
-  (ProtobufCMessageInit) request__atfork__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-#define request__atexit__field_descriptors NULL
-#define request__atexit__field_indices_by_name NULL
-#define request__atexit__number_ranges NULL
-const ProtobufCMessageDescriptor request__atexit__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Request.Atexit",
-  "Atexit",
-  "Request__Atexit",
-  "",
-  sizeof(Request__Atexit),
-  0,
-  request__atexit__field_descriptors,
-  request__atexit__field_indices_by_name,
-  0,  request__atexit__number_ranges,
-  (ProtobufCMessageInit) request__atexit__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor request__field_descriptors[16] =
+static const ProtobufCFieldDescriptor request__field_descriptors[14] =
 {
   {
     "socketCall",
@@ -758,34 +710,8 @@ static const ProtobufCFieldDescriptor request__field_descriptors[16] =
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "atforkAction",
-    17,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Request, calling_case),
-    offsetof(Request, atforkaction),
-    &request__atfork__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "atexitAction",
-    18,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Request, calling_case),
-    offsetof(Request, atexitaction),
-    &request__atexit__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned request__field_indices_by_name[] = {
-  15,   /* field[15] = atexitAction */
-  14,   /* field[14] = atforkAction */
   13,   /* field[13] = atstartAction */
   2,   /* field[2] = closeCall */
   1,   /* field[1] = connectCall */
@@ -805,7 +731,7 @@ static const ProtobufCIntRange request__number_ranges[2 + 1] =
 {
   { 1, 0 },
   { 15, 12 },
-  { 0, 16 }
+  { 0, 14 }
 };
 const ProtobufCMessageDescriptor request__descriptor =
 {
@@ -815,7 +741,7 @@ const ProtobufCMessageDescriptor request__descriptor =
   "Request",
   "",
   sizeof(Request),
-  16,
+  14,
   request__field_descriptors,
   request__field_indices_by_name,
   2,  request__number_ranges,

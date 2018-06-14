@@ -36,7 +36,7 @@ struct Poller::Impl
 {
     int epollfd;
 
-    // [muduo/net/poller/EpollPoller]() choose 16 as initialMaxEvents.
+    // muduo.net.poller.EpollPoller choose 16 as initialMaxEvents.
     static const int maxEventsReceivedEachPoll = 64;
 };
 

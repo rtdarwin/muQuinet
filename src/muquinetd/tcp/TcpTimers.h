@@ -17,43 +17,25 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MUQUINETD_MUQUINETD_H
-#define MUQUINETD_MUQUINETD_H
+#ifndef MUQUINETD_TCP_TCPTIMERS_H
+#define MUQUINETD_TCP_TCPTIMERS_H
 
-#include <memory>
+#include <ev.h>
 
-#include "muquinetd/base/Singleton.h"
+class TcpPcb;
 
-class muQuinetd : public Singleton<muQuinetd>
+// standard-layout
+struct TcpTimers
 {
-    friend class Singleton<muQuinetd>;
+    ev_timer estab;
+    ev_timer retransmission;
+    ev_timer delay_ack;
+    ev_timer persist;  // not implemented
+    ev_timer keeplive; // not implemented
+    ev_timer fin_wait_2_state;
+    ev_timer time_wait_state;
 
-public:
-    enum class exit_status
-    {
-        SUCCESS = 0,
-        FAILURE = 1,
-        BAD_CMDLINE,
-        BAD_CONF_FILE,
-    };
-
-public:
-    void init(int argc, char* argv[]);
-    void run();
-    void stop();
-    void exit(enum exit_status);
-
-private:
-    muQuinetd();
-    ~muQuinetd();
-
-    void readConf(int argc, char* argv[]);
-    void initSignalActions();
-    void initLogging();
-
-private:
-    struct Impl;
-    std::unique_ptr<Impl> _pImpl;
+    TcpPcb* pcb;
 };
 
-#endif // MUQUINETD_MUQUINETD_H
+#endif

@@ -87,15 +87,7 @@ message Response {
     required int32 startfd = 1;
     optional int32 count = 2;
   }
-  
-  // 17
-  message Atfork {
-  }
-
-  // 18
-  message Atexit {
-  }
-
+ 
   ////////////////////////////////
   // Fields
 
@@ -114,8 +106,6 @@ message Response {
     Fcntl fcntlCall = 12;
 
     Atstart atstartAction = 16;
-    Atfork atforkAction = 17;
-    Atexit atexitAction =  18;
   }
 
   enum RetCode {

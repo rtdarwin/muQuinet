@@ -24,7 +24,7 @@
 namespace InternetChecksum {
 
 uint32_t
-checksum(void* addr, int count, int start_sum)
+checksum(const void* addr, int count, int start_sum)
 {
     /* Compute Internet Checksum for "count" bytes
      *         beginning at location "addr".

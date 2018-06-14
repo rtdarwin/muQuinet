@@ -25,6 +25,7 @@
 #include <unistd.h>
 
 #include "muquinetd/Logging.h"
+#include "muquinetd/Mux.h"
 #include "muquinetd/mux/SelectableChannel.h"
 #include "rpc/cpp_out/request.pb.h"
 #include "rpc/cpp_out/response.pb.h"
@@ -44,12 +45,11 @@ struct ReqRespChannel::Impl
     /*  Data members */
 
     int fd;
-    // TODO: multiprocess support
-    string peer;            // Name of peer interceptor
-    vector<pid_t> peerPids; // Pids of peer interceptors
-    bool closeOnExec = false;
-    int refcnt = 1; // How many interceptors are referening this channel
     unique_ptr<SelectableChannel> sChannel; // For EventLoop use
+
+    string peer; // Name of peer interceptor
+    pid_t peerPid;
+
     shared_ptr<Socket> socket;
 
     /*  Member functions */
@@ -62,8 +62,10 @@ struct ReqRespChannel::Impl
          , const shared_ptr<const Request>& req)
      > onNewRequestFunc;
     // clang-format on
-    void onReadReady(const shared_ptr<ReqRespChannel>&);
     void write(const shared_ptr<Response>&);
+
+    void onReadReady(const shared_ptr<ReqRespChannel>&);
+    void onPeerWritingClose(const shared_ptr<ReqRespChannel>&);
 };
 
 ReqRespChannel::ReqRespChannel(int fd)
@@ -80,12 +82,16 @@ ReqRespChannel::ReqRespChannel(int fd)
     auto& sChannel = _pImpl->sChannel;
     sChannel.reset(new SelectableChannel(fd));
     sChannel->enableReading();
-    sChannel->onRead(
+    sChannel->setOnReadCB(
         [this]() { this->_pImpl->onReadReady(this->shared_from_this()); });
+    sChannel->setOnCloseCB([this]() {
+        this->_pImpl->onPeerWritingClose(this->shared_from_this());
+    });
 }
 
 ReqRespChannel::~ReqRespChannel()
 {
+    _pImpl->sChannel->unregisterSelf();
     ::close(_pImpl->fd);
 
     {
@@ -94,7 +100,7 @@ ReqRespChannel::~ReqRespChannel()
 }
 
 void
-ReqRespChannel::onNewRequest(const std::function<shared_ptr<Response>(
+ReqRespChannel::setOnNewRequestCB(const std::function<shared_ptr<Response>(
                                  const shared_ptr<ReqRespChannel>&,
                                  const shared_ptr<const Request>& req)>& f)
 {
@@ -120,52 +126,16 @@ ReqRespChannel::setPeerName(const std::string& p)
     _pImpl->peer = p;
 }
 
+void
+ReqRespChannel::setPeerPid(pid_t p)
+{
+    _pImpl->peerPid = p;
+}
+
 const std::string&
 ReqRespChannel::peerName()
 {
     return _pImpl->peer;
-}
-
-void
-ReqRespChannel::addPeerPid(pid_t p)
-{
-    _pImpl->peerPids.push_back(p);
-}
-
-const std::vector<pid_t>&
-ReqRespChannel::peerPids()
-{
-    return _pImpl->peerPids;
-}
-
-void
-ReqRespChannel::setCloseOnExec(bool cloexec)
-{
-    _pImpl->closeOnExec = cloexec;
-}
-
-bool
-ReqRespChannel::closeOnExec()
-{
-    return _pImpl->closeOnExec;
-}
-
-void
-ReqRespChannel::increaseRefCount()
-{
-    _pImpl->refcnt++;
-}
-
-void
-ReqRespChannel::decreaseRefCount()
-{
-    _pImpl->refcnt--;
-}
-
-int
-ReqRespChannel::refCount()
-{
-    return _pImpl->refcnt;
 }
 
 shared_ptr<Socket>
@@ -198,16 +168,20 @@ ReqRespChannel::Impl::onReadReady(const shared_ptr<ReqRespChannel>& rrChannel)
     memset(rdbuf, 0, sizeof(rdbuf));
     int nread = ::read(fd, rdbuf, sizeof(rdbuf));
     if (nread == -1) {
-        // FIXME: EAGAIN, EWOULDBLOCK
         int errno_ = errno;
-        MUQUINETD_LOG(error) << "::read " << string(strerror(errno_))
-                             << ". This channel will be closed";
-        sChannel->unregisterSelf();
-        return;
+
+        if (errno_ == EAGAIN || errno_ == EWOULDBLOCK) {
+            return;
+        }
+
+        // MUQUINETD_LOG(error) << "::read " << string(strerror(errno_))
+        //                      << ". This channel will be closed";
+        // sChannel->unregisterSelf();
+        // return;
     } else if (nread == 0) {
-        MUQUINETD_LOG(error) << "::read EOF"
+        MUQUINETD_LOG(info) << "::read EOF"
                              << ". This channel will be closed";
-        sChannel->unregisterSelf();
+        Mux::get()->removeRRChannel(rrChannel);
         return;
     } else if (nread == RPC_MESSAGE_MAX_SIZE) {
         MUQUINETD_LOG(warning) << "::read call get RPC_MESSAGE_MAX_SIZE bytes";
@@ -233,6 +207,12 @@ ReqRespChannel::Impl::onReadReady(const shared_ptr<ReqRespChannel>& rrChannel)
     /*  4. write the message */
 
     write(resp);
+}
+
+void
+ReqRespChannel::Impl::onPeerWritingClose(const shared_ptr<ReqRespChannel>& who)
+{
+    Mux::get()->removeRRChannel(who);
 }
 
 void

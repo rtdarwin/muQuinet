@@ -49,7 +49,7 @@ struct Socket::Impl
     enum Socket::Type type;
 
     bool nonblocking;
-    int pipefd[2];
+    int new_packet_notify_pipe[2];
     bool waiting = false;
     std::function<void()> onAsyncNewPacket;
     unique_ptr<SelectableChannel> sChannel;
@@ -80,15 +80,19 @@ Socket::Socket(enum Type t, bool isnonblocking)
     _pImpl->nonblocking = isnonblocking;
 
     // SelectableChannel
-    pipe2(_pImpl->pipefd, O_NONBLOCK);
+    pipe2(_pImpl->new_packet_notify_pipe, O_NONBLOCK);
 
-    _pImpl->sChannel.reset(new SelectableChannel(_pImpl->pipefd[0]));
+    _pImpl->sChannel.reset(
+        new SelectableChannel(_pImpl->new_packet_notify_pipe[0]));
     _pImpl->sChannel->enableReading();
-    _pImpl->sChannel->onRead(
+    _pImpl->sChannel->setOnReadCB(
         std::bind(&Socket::Impl::sChannelReadCb, this->_pImpl.get()));
 }
 
-Socket::~Socket() = default;
+Socket::~Socket()
+{
+    MUQUINETD_LOG(debug) << "Destroy Socket";
+}
 
 enum Socket::Type
 Socket::type()
@@ -103,7 +107,7 @@ Socket::nonblocking()
 }
 
 SelectableChannel*
-Socket::getSelectableChannel()
+Socket::getAsyncNewPacketNotifyChannel()
 {
     assert(_pImpl->sChannel);
 
@@ -126,7 +130,7 @@ Socket::setWaiting(bool v)
 }
 
 void
-Socket::onAsyncNewPacket(std::function<void()> cb)
+Socket::setOnAsyncNewPacketCB(std::function<void()> cb)
 {
     assert(cb);
     _pImpl->onAsyncNewPacket = cb;
@@ -192,7 +196,7 @@ Socket::setPcb(const std::shared_ptr<Pcb>& p)
 void
 Socket::Impl::markSChannelAsReadable()
 {
-    write(pipefd[1], "1", 1);
+    write(new_packet_notify_pipe[1], "1", 1);
 }
 
 void
@@ -200,7 +204,7 @@ Socket::Impl::sChannelReadCb()
 {
     // read until -1 and EAGAIN
     char readbuf[8];
-    while (::read(pipefd[0], readbuf, 8) != -1)
+    while (::read(new_packet_notify_pipe[0], readbuf, 8) != -1)
         ;
 
     if (!this->waiting) {
@@ -212,8 +216,9 @@ Socket::Impl::sChannelReadCb()
                                "to processes waitting for it";
     }
 
-    assert(onAsyncNewPacket);
-    onAsyncNewPacket();
+    if (onAsyncNewPacket) {
+        onAsyncNewPacket();
+    }
 
     this->waiting = false;
 }

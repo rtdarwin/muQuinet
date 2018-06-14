@@ -46,7 +46,8 @@ struct Mux::Impl
     EventLoop eventloop;
     shared_ptr<MasterListener> masterListener;
     shared_ptr<RequestHandler> reqHandler;
-    vector<shared_ptr<ReqRespChannel>> rrChannels; // rrChanel -> Socket -> Pcb
+    std::list<shared_ptr<ReqRespChannel>>
+        rrChannels; // rrChanel -> Socket -> Pcb
 };
 
 // Reason that defaulted ctor/dtor definitions here:
@@ -73,7 +74,7 @@ Mux::init()
         this->addRRChannel(rrChannel);
 
         // clang-format off
-        rrChannel->onNewRequest
+        rrChannel->setOnNewRequestCB
         (
             [this]
             (const std::shared_ptr<ReqRespChannel>& rrChannel
@@ -132,12 +133,20 @@ void
 Mux::addRRChannel(const std::shared_ptr<ReqRespChannel>& ch)
 {
     _pImpl->rrChannels.push_back(ch);
+    MUQUINETD_LOG(debug) << "Adding a RRChannel";
 }
 
 void
 Mux::removeRRChannel(const std::shared_ptr<ReqRespChannel>& ch)
 {
-    // TODO
+    _pImpl->rrChannels.remove_if(
+        [&ch](const std::shared_ptr<ReqRespChannel>& chToPred) -> bool {
+            if (chToPred.get() == ch.get()) {
+                MUQUINETD_LOG(debug) << "Removing a RRChannel";
+                return true;
+            }
+            return false;
+        });
 }
 
 EventLoop*

@@ -85,18 +85,6 @@ void   response__atstart__init
   static Response__Atstart init_value = RESPONSE__ATSTART__INIT;
   *message = init_value;
 }
-void   response__atfork__init
-                     (Response__Atfork         *message)
-{
-  static Response__Atfork init_value = RESPONSE__ATFORK__INIT;
-  *message = init_value;
-}
-void   response__atexit__init
-                     (Response__Atexit         *message)
-{
-  static Response__Atexit init_value = RESPONSE__ATEXIT__INIT;
-  *message = init_value;
-}
 void   response__init
                      (Response         *message)
 {
@@ -855,42 +843,6 @@ const ProtobufCMessageDescriptor response__atstart__descriptor =
   (ProtobufCMessageInit) response__atstart__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-#define response__atfork__field_descriptors NULL
-#define response__atfork__field_indices_by_name NULL
-#define response__atfork__number_ranges NULL
-const ProtobufCMessageDescriptor response__atfork__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Response.Atfork",
-  "Atfork",
-  "Response__Atfork",
-  "",
-  sizeof(Response__Atfork),
-  0,
-  response__atfork__field_descriptors,
-  response__atfork__field_indices_by_name,
-  0,  response__atfork__number_ranges,
-  (ProtobufCMessageInit) response__atfork__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-#define response__atexit__field_descriptors NULL
-#define response__atexit__field_indices_by_name NULL
-#define response__atexit__number_ranges NULL
-const ProtobufCMessageDescriptor response__atexit__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Response.Atexit",
-  "Atexit",
-  "Response__Atexit",
-  "",
-  sizeof(Response__Atexit),
-  0,
-  response__atexit__field_descriptors,
-  response__atexit__field_indices_by_name,
-  0,  response__atexit__number_ranges,
-  (ProtobufCMessageInit) response__atexit__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
 static const ProtobufCEnumValue response__ret_code__enum_values_by_number[3] =
 {
   { "OK", "RESPONSE__RET_CODE__OK", 0 },
@@ -921,7 +873,7 @@ const ProtobufCEnumDescriptor response__ret_code__descriptor =
   response__ret_code__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor response__field_descriptors[16] =
+static const ProtobufCFieldDescriptor response__field_descriptors[14] =
 {
   {
     "socketCall",
@@ -1091,34 +1043,8 @@ static const ProtobufCFieldDescriptor response__field_descriptors[16] =
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "atforkAction",
-    17,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Response, returning_case),
-    offsetof(Response, atforkaction),
-    &response__atfork__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "atexitAction",
-    18,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Response, returning_case),
-    offsetof(Response, atexitaction),
-    &response__atexit__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned response__field_indices_by_name[] = {
-  15,   /* field[15] = atexitAction */
-  14,   /* field[14] = atforkAction */
   13,   /* field[13] = atstartAction */
   2,   /* field[2] = closeCall */
   1,   /* field[1] = connectCall */
@@ -1138,7 +1064,7 @@ static const ProtobufCIntRange response__number_ranges[2 + 1] =
 {
   { 1, 0 },
   { 15, 12 },
-  { 0, 16 }
+  { 0, 14 }
 };
 const ProtobufCMessageDescriptor response__descriptor =
 {
@@ -1148,7 +1074,7 @@ const ProtobufCMessageDescriptor response__descriptor =
   "Response",
   "",
   sizeof(Response),
-  16,
+  14,
   response__field_descriptors,
   response__field_indices_by_name,
   2,  response__number_ranges,

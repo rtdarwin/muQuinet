@@ -87,8 +87,8 @@ channel_send(channel ch, const Request* req)
     assert(bufsize <= RPC_MESSAGE_MAX_SIZE);
     {
         // FIXME: logging
-        printf("-- %s:%d: [DEBUG] Request bytes count = %ld\n",
-               __FILENAME__, __LINE__, bufsize);
+        printf("-- %s:%d: [DEBUG] Request bytes count = %ld\n", __FILENAME__,
+               __LINE__, bufsize);
     }
 
     request__pack(req, (uint8_t*)buf);
@@ -127,8 +127,8 @@ channel_recv(channel ch, Response** response)
 
         {
             // FIXME: logging
-            printf("-- %s:%d: [DEBUG] nread = %lld\n",
-                   __FILENAME__, __LINE__, (long long)nread);
+            printf("-- %s:%d: [DEBUG] nread = %lld\n", __FILENAME__, __LINE__,
+                   (long long)nread);
         }
 
         resp = response__unpack(NULL, nread, (uint8_t*)buf);
@@ -141,5 +141,5 @@ channel_recv(channel ch, Response** response)
 void
 close_channel(channel ch)
 {
-    // TODO
+    close(ch);
 }

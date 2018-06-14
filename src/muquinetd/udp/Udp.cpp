@@ -26,10 +26,10 @@
 #include <list>
 
 // #include "muquinetd/base/ConcurrentDeque.h"
+#include "muquinetd/IpHeaderOverlay.h"
 #include "muquinetd/Logging.h"
 #include "muquinetd/Pcb.h"
 #include "muquinetd/SocketBuffer.h"
-#include "muquinetd/udp/IpHeaderOverlay.h"
 #include "muquinetd/udp/UdpHeader.h"
 #include "muquinetd/udp/UdpPcb.h"
 
@@ -40,7 +40,9 @@ using std::shared_ptr;
 
 struct Udp::Impl
 {
-    std::list<shared_ptr<Pcb>> pcbs;
+    // FIXME: weak_ptr
+    // Udp::rx
+    std::list<weak_ptr<Pcb>> pcbs;
 };
 
 Udp::Udp()
@@ -71,7 +73,8 @@ shared_ptr<Pcb>
 Udp::newPcb()
 {
     const auto& pcb = make_shared<UdpPcb>();
-    _pImpl->pcbs.push_back(pcb);
+    const auto& weak_pcb = pcb;
+    _pImpl->pcbs.push_back(weak_pcb);
 
     return pcb;
 }
@@ -79,7 +82,7 @@ Udp::newPcb()
 void
 Udp::removePcb(const std::shared_ptr<const Pcb>& pcb)
 {
-    std::remove(_pImpl->pcbs.begin(), _pImpl->pcbs.end(), pcb);
+    // TODO
 }
 
 void
@@ -128,8 +131,8 @@ Udp::rx(const shared_ptr<SocketBuffer>& skbuf_head)
     pcb->recv(peeraddr, skbuf_head);
 
     {
-        MUQUINETD_LOG(info)
-            << "UDP Layer Delivered an UDP packet {sport = " << ntohs(udphdr->source)
-            << ", dport = " << ntohs(udphdr->dest) << "}";
+        MUQUINETD_LOG(info) << "UDP Layer Delivered an UDP packet {sport = "
+                            << ntohs(udphdr->source)
+                            << ", dport = " << ntohs(udphdr->dest) << "}";
     }
 }

@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -12,6 +13,9 @@
 int
 main(int argc, char* argv[])
 {
+    char* dest_ipaddr = argv[1];
+    short dest_port = atoi(argv[2]);
+
     /* 1. socket */
 
     {
@@ -26,8 +30,8 @@ main(int argc, char* argv[])
 
     struct sockaddr_in remote;
     remote.sin_family = AF_INET;
-    inet_pton(AF_INET, "10.101.252.144", &remote.sin_addr);
-    remote.sin_port = htons(80);
+    inet_pton(AF_INET, dest_ipaddr, &remote.sin_addr);
+    remote.sin_port = htons(dest_port);
 
     {
         printf("connect\n");

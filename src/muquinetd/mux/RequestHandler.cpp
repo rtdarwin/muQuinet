@@ -95,10 +95,6 @@ RequestHandler::handleRequest(const shared_ptr<ReqRespChannel>& rrChannel,
             MUQUINETD_LOG(info) << "Handling atstartAction...";
             atstartAction(rrChannel, req, resp);
             break;
-        case Request::kAtforkAction: // TODO
-            break;
-        case Request::kAtexitAction: // TODO
-            break;
 
         case Request::CALLING_NOT_SET: // TODO
             MUQUINETD_LOG(warning) << "Request is empty";
@@ -132,9 +128,6 @@ RequestHandler::socketCall(const shared_ptr<ReqRespChannel>& rrChannel,
     shared_ptr<Pcb> pcb;
 
     bool nonblocking = type & SOCK_NONBLOCK;
-    bool cloexec = type & SOCK_CLOEXEC;
-
-    rrChannel->setCloseOnExec(cloexec);
 
     if (type & SOCK_STREAM) {
         so = make_shared<Socket>(Socket::Type::TCP, nonblocking);
@@ -151,14 +144,23 @@ RequestHandler::socketCall(const shared_ptr<ReqRespChannel>& rrChannel,
     so->setReqRespChannel(rrChannel);
     rrChannel->setSocket(so);
 
-    /*  3. 把 Socket.selectableChannel 加入 EventLoop */
+    /*  3. 把 Socket.AsyncNewNotifyChannel 加入 EventLoop */
 
-    SelectableChannel* sChannel = so->getSelectableChannel();
+    SelectableChannel* sChannel = so->getAsyncNewPacketNotifyChannel();
     EventLoop* eventloop = Mux::get()->eventLoop();
     eventloop->addChannel(sChannel);
     sChannel->setOwnerEventLoop(eventloop);
 
-    /*  4. 返回信息给 Interceptor */
+    /*  4. 把 Pcb.ConnectionEstabedNitifyChannel 加入 EventLoop */
+
+    sChannel = pcb->getConnEstabNotifyChannel();
+    if (sChannel) {
+        EventLoop* eventloop = Mux::get()->eventLoop();
+        eventloop->addChannel(sChannel);
+        sChannel->setOwnerEventLoop(eventloop);
+    }
+
+    /*  5. 返回信息给 Interceptor */
 
     resp->set_retcode(Response::RetCode::Response_RetCode_OK);
 
@@ -179,28 +181,77 @@ RequestHandler::connectCall(const shared_ptr<ReqRespChannel>& rrChannel,
     const auto& socket = rrChannel->socket();
     const auto& pcb = socket->pcb();
 
-    // TODO
-    //
-    // - ECONNREFUSED: A connect() on a stream socket found no one
-    //                 listening on the remote address. (TCP only)
+    /*  0. UDP or TCP ? */
+
+    if (socket->type() == Socket::Type::UDP)
+        goto udp;
+    else
+        goto tcp;
+
+udp:
+    /*  1. UDP */
+
+    {
+        int ret = pcb->connect(destAddr.sin_addr, destAddr.sin_port);
+        auto* callRet = resp->mutable_connectcall();
+        if (ret == 0) {
+            callRet->set_ret(0);
+        } else {
+            callRet->set_ret(-1);
+            callRet->set_errno_(ret);
+        }
+    }
+    return;
+
+tcp:
+    /*  2. TCP */
+
     // - EINPROGRESS: The socket is nonblocking and the connection
     //                cannot be completed immediately. (TCP only)
-    // - ETIMEDOUT: Timeout while attempting connection. (TCP only)
-
-    /*  1. 转交 Pcb 处理 */
-
-    int ret = pcb->connect(destAddr.sin_addr, destAddr.sin_port);
-
-    /*  2. 返回信息给 Interceptor */
-
-    auto* callRet = resp->mutable_connectcall();
-
-    if (ret == 0) {
-        callRet->set_ret(0);
+    if (socket->nonblocking()) {
+        goto tcp_in_progress;
     } else {
-        callRet->set_ret(-1);
-        callRet->set_errno_(ret);
+        goto tcp_wait_estab;
     }
+
+tcp_in_progress:;
+    {
+        resp->set_retcode(Response::RetCode::Response_RetCode_OK);
+
+        auto callRet = resp->mutable_recvfromcall();
+        callRet->set_ret(EINPROGRESS);
+    }
+    return;
+
+tcp_wait_estab:;
+    {
+        resp->set_retcode(Response::RetCode::Response_RetCode_WAIT_NEXT);
+
+        const auto& socket = rrChannel->socket();
+        const auto& pcb = socket->pcb();
+
+        std::weak_ptr<ReqRespChannel> rrChannel_weak = rrChannel;
+        pcb->setOnConnEstabCB([rrChannel_weak]() {
+            shared_ptr<ReqRespChannel> rrChannel = rrChannel_weak.lock();
+            if (!rrChannel)
+                return;
+
+            rrChannel->socket()
+                ->pcb()
+                ->getConnEstabNotifyChannel()
+                ->unregisterSelf();
+
+            auto resp = make_shared<Response>();
+            auto* callRet = resp->mutable_connectcall();
+
+            resp->set_retcode(Response::RetCode::Response_RetCode_OK);
+            callRet->set_ret(0);
+
+            rrChannel->write(resp);
+        });
+        pcb->connect(destAddr.sin_addr, destAddr.sin_port);
+    }
+    return;
 }
 
 void
@@ -208,14 +259,17 @@ RequestHandler::closeCall(const shared_ptr<ReqRespChannel>& rrChannel,
                           const shared_ptr<const Request>& req,
                           const shared_ptr<Response>& resp)
 {
-    /*  1. 减少引用，引用减少为 0 时销毁 */
+    // FIXME: use UNIX socket of ReqRespChannel to refcnt
+    // - change code of interceptor/close
 
-    rrChannel->decreaseRefCount();
-    if (!rrChannel->refCount()) {
-        Mux::get()->removeRRChannel(rrChannel);
-    }
+    // /*  1. 减少引用，引用减少为 0 时销毁 */
 
-    /*  2. 返回信息给 Interceptor */
+    // rrChannel->decreaseRefCount();
+    // if (!rrChannel->refCount()) {
+    //     Mux::get()->removeRRChannel(rrChannel);
+    // }
+
+    // /*  2. 返回信息给 Interceptor */
 
     resp->set_retcode(Response::RetCode::Response_RetCode_OK);
 
@@ -271,8 +325,6 @@ RequestHandler::recvfromCall(const shared_ptr<ReqRespChannel>& rrChannel,
                              const shared_ptr<const Request>& req,
                              const shared_ptr<Response>& resp)
 {
-    // TODO: TCP
-
     const auto& call = req->recvfromcall();
     const auto& socket = rrChannel->socket();
     // int32_t flags = call.flags(); // ignored
@@ -292,7 +344,6 @@ RequestHandler::recvfromCall(const shared_ptr<ReqRespChannel>& rrChannel,
                 goto e_again;
             }
         } else {
-            // FIXME: this function call will block eventloop thread
             if (socket->try_takeFromRecvQ(peeraddr, skbuf_head)) {
                 // happy path
                 // fall through
@@ -362,8 +413,17 @@ wait_next:;
         //   相互持有 shared_ptr 的局面
         // 这样会导致 ReqRespChannel 与 Socket 谁都不会被释放 --> 内存泄漏
         weak_ptr<ReqRespChannel> ch = rrChannel;
-        socket->onAsyncNewPacket(std::bind(&RequestHandler::onAsyncNewUdpPacket,
-                                           this, ch, require_addr));
+        switch (socket->type()) {
+            case Socket::Type::UDP:
+                socket->setOnAsyncNewPacketCB(
+                    std::bind(&RequestHandler::onAsyncNewUdpPacket, this, ch,
+                              require_addr));
+                break;
+            case Socket::Type::TCP:
+                socket->setOnAsyncNewPacketCB(
+                    std::bind(&RequestHandler::onAsyncNewTcpPacket, this, ch));
+                break;
+        }
         socket->setWaiting(true);
 
         return;
@@ -406,7 +466,8 @@ RequestHandler::getpeernameCall(
 
         auto* callRet = resp->mutable_getpeernamecall();
         callRet->set_ret(0);
-        // callRet->set_sockanme(&sockname, sizeof(struct sockaddr_in)); // <--
+        // callRet->set_sockanme(&sockname, sizeof(struct sockaddr_in)); //
+        // <--
         // use
         // after free
         callRet->set_peername(
@@ -436,7 +497,8 @@ RequestHandler::getsocknameCall(
 
         auto* callRet = resp->mutable_getsocknamecall();
         callRet->set_ret(0);
-        // callRet->set_sockanme(&sockname, sizeof(struct sockaddr_in)); // <--
+        // callRet->set_sockanme(&sockname, sizeof(struct sockaddr_in)); //
+        // <--
         // use
         // after free
         callRet->set_sockanme(
@@ -483,7 +545,7 @@ RequestHandler::atstartAction(const shared_ptr<ReqRespChannel>& rrChannel,
     /*  1. 保存 peer 信息 */
 
     rrChannel->setPeerName(progname);
-    rrChannel->addPeerPid(pid);
+    rrChannel->setPeerPid(pid);
 
     /*  2. 返回信息给 Interceptor */
 
@@ -492,25 +554,6 @@ RequestHandler::atstartAction(const shared_ptr<ReqRespChannel>& rrChannel,
     auto atstart = resp->mutable_atstartaction();
     atstart->set_startfd(4096);
     atstart->set_count(1024);
-}
-
-void
-RequestHandler::atforkAction(const shared_ptr<ReqRespChannel>& rrChannel,
-                             const shared_ptr<const Request>& req,
-                             const shared_ptr<Response>& resp)
-{
-    rrChannel->increaseRefCount();
-    // TODO what if CLOSE_EXEC
-}
-
-void
-RequestHandler::atexitAction(const shared_ptr<ReqRespChannel>& rrChannel,
-                             const shared_ptr<const Request>& req,
-                             const shared_ptr<Response>& resp)
-{
-    // TODO
-    // 找到本进程所有的 ReqRespChannel，对其 refcnt--
-    // 若 refcnt 减到 0，销毁
 }
 
 void
@@ -553,7 +596,35 @@ RequestHandler::onAsyncNewUdpPacket(
 }
 
 void
-RequestHandler::onAsyncNewTcpPacket(const weak_ptr<ReqRespChannel>&)
+RequestHandler::onAsyncNewTcpPacket(
+    const weak_ptr<ReqRespChannel>& rrChannel_weak)
 {
     // TODO
+    shared_ptr<ReqRespChannel> rrChannel = rrChannel_weak.lock();
+    if (!rrChannel)
+        return;
+
+    const auto& so = rrChannel->socket();
+
+    shared_ptr<SocketBuffer> skbuf_head;
+    sockaddr_in peeraddr; // just a placeholder
+
+    // take packet
+    so->takeFromRecvQ(peeraddr, skbuf_head);
+
+    // prepare Response
+    auto resp = make_shared<Response>();
+    auto* callRet = resp->mutable_recvfromcall();
+    std::string* buf = callRet->mutable_buf();
+
+    // buf (userpayload)
+    shared_ptr<SocketBuffer> curr_skbuf;
+    for (curr_skbuf = skbuf_head; curr_skbuf; curr_skbuf = curr_skbuf->next) {
+        int len = curr_skbuf->user_payload_end - curr_skbuf->user_payload_begin;
+        buf->append(curr_skbuf->user_payload_begin, len);
+    }
+
+    resp->set_retcode(Response::RetCode::Response_RetCode_OK);
+    callRet->set_ret(buf->length());
+    rrChannel->write(resp);
 }

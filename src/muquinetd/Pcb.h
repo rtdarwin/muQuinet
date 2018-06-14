@@ -30,6 +30,7 @@
 
 class Socket;
 class SocketBuffer;
+class SelectableChannel;
 
 class Pcb : public std::enable_shared_from_this<Pcb>
 {
@@ -50,20 +51,23 @@ public:
 
     int bind();
     virtual int connect(const struct in_addr& faddr, __be16 fport);
-    void disconnect();
+    virtual void setOnConnEstabCB(const std::function<void()>&);
+    virtual SelectableChannel* getConnEstabNotifyChannel(); 
+    virtual void disconnect();
     virtual int send(const std::string& buf);
     virtual int send(const struct in_addr& faddr, __be16 fport,
                      const std::string& buf);
     virtual void recv(const std::shared_ptr<SocketBuffer>&);
-    virtual void recv(struct sockaddr_in& peeraddr, const std::shared_ptr<SocketBuffer>&);
+    virtual void recv(struct sockaddr_in& peeraddr,
+                      const std::shared_ptr<SocketBuffer>&);
     virtual __be16 nextAvailLocalPort() = 0; // each protocol implements
     // void bind(struct in_addr laddr, __be16 lport);
 
     std::weak_ptr<Socket> socket();
-    void setSocket(const std::shared_ptr<Socket>&);
+    void setSocket(const std::weak_ptr<Socket>&);
 
 private:
-    std::shared_ptr<Socket> _socket;
+    std::weak_ptr<Socket> _socket;
 };
 
 class Pcbs
@@ -99,7 +103,12 @@ public:
 
         int match = 0;
         for (it = c.cbegin(); it != c.cend(); ++it) {
-            const std::shared_ptr<Pcb>& curr = *it;
+            const std::shared_ptr<Pcb>& curr = (*it).lock();
+            if (!curr) {
+                // c.erase(it);// FIXME
+                continue;
+            }
+
             int accum = 0;
             int m = 0;
 

@@ -21,14 +21,58 @@
 #define MUQUINETD_TCP_TCPPCB_H
 
 #include "muquinetd/Pcb.h"
+#include "muquinetd/mux/SelectableChannel.h"
+#include "muquinetd/tcp/TcpHeader.h"
+
+typedef uint32_t tcp_seq;
 
 class TcpPcb : public Pcb
 {
 public:
     // let compiler generate ctor/dctor
+    TcpPcb();
 
     // override functions
+    virtual int connect(const struct in_addr& faddr, __be16 fport) override;
+    virtual void setOnConnEstabCB(const std::function<void()>&) override;
+    virtual SelectableChannel* getConnEstabNotifyChannel() override;
+    virtual void disconnect() override;
+    virtual int send(const std::string& buf) override;
+    virtual void recv(const std::shared_ptr<SocketBuffer>&) override;
+
     virtual __be16 nextAvailLocalPort() override;
+
+private:
+    std::shared_ptr<SocketBuffer> socketBufferOfTcpTempl();
+    void prepareBeforeIpTx(const std::shared_ptr<SocketBuffer>&,
+                           const std::string& buf = std::string());
+    void ack2peer(tcp_seq);
+
+private:
+    constexpr static int msl = 30; // 30s
+
+    short conn_state = TcpState::TCP_STATE__CLOSED;
+
+    /* connect */
+    int estab_notify_pipe[2];
+    std::function<void()> onConnEstabCB;
+    std::unique_ptr<SelectableChannel> sChannel;
+
+    short send_flags = 0;
+
+    /* send sequence */
+    const static tcp_seq iss = 1;
+    tcp_seq send_unack;
+    tcp_seq send_next;
+    tcp_seq peer_recv_adv;
+
+    /* receive sequence */
+    // tcp_seq rcv_wnd;
+    tcp_seq irs;
+    tcp_seq recv_next;
+
+    /* congestion control */
+    // TODO
 };
 
 #endif

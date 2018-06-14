@@ -30,7 +30,6 @@ typedef int channel;
 void fd2channel_module_init();
 
 // for interceptor use
-bool is_assigned_by_muquinet(int fd);
 channel fd2channel(int fd);
 void set_fd2channel(int fd, channel ch);
 void unset_fd2channel(int fd, channel ch);

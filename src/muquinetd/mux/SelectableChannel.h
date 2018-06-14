@@ -36,10 +36,10 @@ public:
     SelectableChannel(SelectableChannel&&) = delete;
     SelectableChannel& operator=(SelectableChannel&&) = delete;
 
-    void onRead(std::function<void()> callback);
-    void onWrite(std::function<void()> callback);
-    void onClose(std::function<void()> callback);
-    void onError(std::function<void()> callback);
+    void setOnReadCB(std::function<void()> callback);
+    void setOnWriteCB(std::function<void()> callback);
+    void setOnCloseCB(std::function<void()> callback);
+    void setOnErrorCB(std::function<void()> callback);
 
     // For SelectableChannel creator use
     void enableReading();
@@ -52,7 +52,7 @@ public:
     void setOwnerEventLoop(EventLoop*);
     void unregisterSelf();
 
-    // For EventLoop/poller use
+    // For EventLoop.poller use
     int eventsInterested();
     void setEventsReceived(int revt);
     void handleEventsReceived();

@@ -36,8 +36,6 @@ void protobuf_AssignDesc_response_2eproto();
 void protobuf_ShutdownFile_response_2eproto();
 
 class Response;
-class Response_Atexit;
-class Response_Atfork;
 class Response_Atstart;
 class Response_Close;
 class Response_Connect;
@@ -1473,172 +1471,6 @@ class Response_Atstart : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class Response_Atfork : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Response.Atfork) */ {
- public:
-  Response_Atfork();
-  virtual ~Response_Atfork();
-
-  Response_Atfork(const Response_Atfork& from);
-
-  inline Response_Atfork& operator=(const Response_Atfork& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Response_Atfork& default_instance();
-
-  void Swap(Response_Atfork* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Response_Atfork* New() const { return New(NULL); }
-
-  Response_Atfork* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Response_Atfork& from);
-  void MergeFrom(const Response_Atfork& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
-    return InternalSerializeWithCachedSizesToArray(false, output);
-  }
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Response_Atfork* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:Response.Atfork)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 _has_bits_[1];
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_response_2eproto();
-  friend void protobuf_AssignDesc_response_2eproto();
-  friend void protobuf_ShutdownFile_response_2eproto();
-
-  void InitAsDefaultInstance();
-  static Response_Atfork* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Response_Atexit : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Response.Atexit) */ {
- public:
-  Response_Atexit();
-  virtual ~Response_Atexit();
-
-  Response_Atexit(const Response_Atexit& from);
-
-  inline Response_Atexit& operator=(const Response_Atexit& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Response_Atexit& default_instance();
-
-  void Swap(Response_Atexit* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Response_Atexit* New() const { return New(NULL); }
-
-  Response_Atexit* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Response_Atexit& from);
-  void MergeFrom(const Response_Atexit& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
-    return InternalSerializeWithCachedSizesToArray(false, output);
-  }
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Response_Atexit* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:Response.Atexit)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 _has_bits_[1];
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_response_2eproto();
-  friend void protobuf_AssignDesc_response_2eproto();
-  friend void protobuf_ShutdownFile_response_2eproto();
-
-  void InitAsDefaultInstance();
-  static Response_Atexit* default_instance_;
-};
-// -------------------------------------------------------------------
-
 class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Response) */ {
  public:
   Response();
@@ -1676,8 +1508,6 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
     kSetsockoptCall = 11,
     kFcntlCall = 12,
     kAtstartAction = 16,
-    kAtforkAction = 17,
-    kAtexitAction = 18,
     RETURNING_NOT_SET = 0,
   };
 
@@ -1737,8 +1567,6 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
   typedef Response_Setsockopt Setsockopt;
   typedef Response_Fcntl Fcntl;
   typedef Response_Atstart Atstart;
-  typedef Response_Atfork Atfork;
-  typedef Response_Atexit Atexit;
 
   typedef Response_RetCode RetCode;
   static const RetCode OK =
@@ -1887,24 +1715,6 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::Response_Atstart* release_atstartaction();
   void set_allocated_atstartaction(::Response_Atstart* atstartaction);
 
-  // optional .Response.Atfork atforkAction = 17;
-  bool has_atforkaction() const;
-  void clear_atforkaction();
-  static const int kAtforkActionFieldNumber = 17;
-  const ::Response_Atfork& atforkaction() const;
-  ::Response_Atfork* mutable_atforkaction();
-  ::Response_Atfork* release_atforkaction();
-  void set_allocated_atforkaction(::Response_Atfork* atforkaction);
-
-  // optional .Response.Atexit atexitAction = 18;
-  bool has_atexitaction() const;
-  void clear_atexitaction();
-  static const int kAtexitActionFieldNumber = 18;
-  const ::Response_Atexit& atexitaction() const;
-  ::Response_Atexit* mutable_atexitaction();
-  ::Response_Atexit* release_atexitaction();
-  void set_allocated_atexitaction(::Response_Atexit* atexitaction);
-
   // required .Response.RetCode retCode = 15;
   bool has_retcode() const;
   void clear_retcode();
@@ -1928,8 +1738,6 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
   inline void set_has_setsockoptcall();
   inline void set_has_fcntlcall();
   inline void set_has_atstartaction();
-  inline void set_has_atforkaction();
-  inline void set_has_atexitaction();
   inline void set_has_retcode();
   inline void clear_has_retcode();
 
@@ -1956,8 +1764,6 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
     ::Response_Setsockopt* setsockoptcall_;
     ::Response_Fcntl* fcntlcall_;
     ::Response_Atstart* atstartaction_;
-    ::Response_Atfork* atforkaction_;
-    ::Response_Atexit* atexitaction_;
   } returning_;
   ::google::protobuf::uint32 _oneof_case_[1];
 
@@ -2866,14 +2672,6 @@ inline void Response_Atstart::set_count(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
-// Response_Atfork
-
-// -------------------------------------------------------------------
-
-// Response_Atexit
-
-// -------------------------------------------------------------------
-
 // Response
 
 // optional .Response.Socket socketCall = 1;
@@ -3500,111 +3298,15 @@ inline void Response::set_allocated_atstartaction(::Response_Atstart* atstartact
   // @@protoc_insertion_point(field_set_allocated:Response.atstartAction)
 }
 
-// optional .Response.Atfork atforkAction = 17;
-inline bool Response::has_atforkaction() const {
-  return returning_case() == kAtforkAction;
-}
-inline void Response::set_has_atforkaction() {
-  _oneof_case_[0] = kAtforkAction;
-}
-inline void Response::clear_atforkaction() {
-  if (has_atforkaction()) {
-    delete returning_.atforkaction_;
-    clear_has_returning();
-  }
-}
-inline  const ::Response_Atfork& Response::atforkaction() const {
-  // @@protoc_insertion_point(field_get:Response.atforkAction)
-  return has_atforkaction()
-      ? *returning_.atforkaction_
-      : ::Response_Atfork::default_instance();
-}
-inline ::Response_Atfork* Response::mutable_atforkaction() {
-  if (!has_atforkaction()) {
-    clear_returning();
-    set_has_atforkaction();
-    returning_.atforkaction_ = new ::Response_Atfork;
-  }
-  // @@protoc_insertion_point(field_mutable:Response.atforkAction)
-  return returning_.atforkaction_;
-}
-inline ::Response_Atfork* Response::release_atforkaction() {
-  // @@protoc_insertion_point(field_release:Response.atforkAction)
-  if (has_atforkaction()) {
-    clear_has_returning();
-    ::Response_Atfork* temp = returning_.atforkaction_;
-    returning_.atforkaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline void Response::set_allocated_atforkaction(::Response_Atfork* atforkaction) {
-  clear_returning();
-  if (atforkaction) {
-    set_has_atforkaction();
-    returning_.atforkaction_ = atforkaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Response.atforkAction)
-}
-
-// optional .Response.Atexit atexitAction = 18;
-inline bool Response::has_atexitaction() const {
-  return returning_case() == kAtexitAction;
-}
-inline void Response::set_has_atexitaction() {
-  _oneof_case_[0] = kAtexitAction;
-}
-inline void Response::clear_atexitaction() {
-  if (has_atexitaction()) {
-    delete returning_.atexitaction_;
-    clear_has_returning();
-  }
-}
-inline  const ::Response_Atexit& Response::atexitaction() const {
-  // @@protoc_insertion_point(field_get:Response.atexitAction)
-  return has_atexitaction()
-      ? *returning_.atexitaction_
-      : ::Response_Atexit::default_instance();
-}
-inline ::Response_Atexit* Response::mutable_atexitaction() {
-  if (!has_atexitaction()) {
-    clear_returning();
-    set_has_atexitaction();
-    returning_.atexitaction_ = new ::Response_Atexit;
-  }
-  // @@protoc_insertion_point(field_mutable:Response.atexitAction)
-  return returning_.atexitaction_;
-}
-inline ::Response_Atexit* Response::release_atexitaction() {
-  // @@protoc_insertion_point(field_release:Response.atexitAction)
-  if (has_atexitaction()) {
-    clear_has_returning();
-    ::Response_Atexit* temp = returning_.atexitaction_;
-    returning_.atexitaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline void Response::set_allocated_atexitaction(::Response_Atexit* atexitaction) {
-  clear_returning();
-  if (atexitaction) {
-    set_has_atexitaction();
-    returning_.atexitaction_ = atexitaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Response.atexitAction)
-}
-
 // required .Response.RetCode retCode = 15;
 inline bool Response::has_retcode() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
+  return (_has_bits_[0] & 0x00002000u) != 0;
 }
 inline void Response::set_has_retcode() {
-  _has_bits_[0] |= 0x00008000u;
+  _has_bits_[0] |= 0x00002000u;
 }
 inline void Response::clear_has_retcode() {
-  _has_bits_[0] &= ~0x00008000u;
+  _has_bits_[0] &= ~0x00002000u;
 }
 inline void Response::clear_retcode() {
   retcode_ = 0;
@@ -3631,10 +3333,6 @@ inline Response::ReturningCase Response::returning_case() const {
   return Response::ReturningCase(_oneof_case_[0]);
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

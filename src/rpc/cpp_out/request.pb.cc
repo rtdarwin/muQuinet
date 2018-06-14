@@ -36,8 +36,6 @@ struct RequestOneofInstance {
   const ::Request_Setsockopt* setsockoptcall_;
   const ::Request_Fcntl* fcntlcall_;
   const ::Request_Atstart* atstartaction_;
-  const ::Request_Atfork* atforkaction_;
-  const ::Request_Atexit* atexitaction_;
 }* Request_default_oneof_instance_ = NULL;
 const ::google::protobuf::Descriptor* Request_Socket_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
@@ -78,12 +76,6 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Request_Atstart_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Request_Atstart_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Request_Atfork_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Request_Atfork_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Request_Atexit_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Request_Atexit_reflection_ = NULL;
 
 }  // namespace
 
@@ -96,7 +88,7 @@ void protobuf_AssignDesc_request_2eproto() {
       "request.proto");
   GOOGLE_CHECK(file != NULL);
   Request_descriptor_ = file->message_type(0);
-  static const int Request_offsets_[17] = {
+  static const int Request_offsets_[15] = {
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, socketcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, connectcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, closecall_),
@@ -110,8 +102,6 @@ void protobuf_AssignDesc_request_2eproto() {
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, setsockoptcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, fcntlcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, atstartaction_),
-    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, atforkaction_),
-    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Request_default_oneof_instance_, atexitaction_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request, pid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request, calling_),
   };
@@ -321,34 +311,6 @@ void protobuf_AssignDesc_request_2eproto() {
       sizeof(Request_Atstart),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request_Atstart, _internal_metadata_),
       -1);
-  Request_Atfork_descriptor_ = Request_descriptor_->nested_type(13);
-  static const int Request_Atfork_offsets_[1] = {
-  };
-  Request_Atfork_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Request_Atfork_descriptor_,
-      Request_Atfork::default_instance_,
-      Request_Atfork_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request_Atfork, _has_bits_[0]),
-      -1,
-      -1,
-      sizeof(Request_Atfork),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request_Atfork, _internal_metadata_),
-      -1);
-  Request_Atexit_descriptor_ = Request_descriptor_->nested_type(14);
-  static const int Request_Atexit_offsets_[1] = {
-  };
-  Request_Atexit_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Request_Atexit_descriptor_,
-      Request_Atexit::default_instance_,
-      Request_Atexit_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request_Atexit, _has_bits_[0]),
-      -1,
-      -1,
-      sizeof(Request_Atexit),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Request_Atexit, _internal_metadata_),
-      -1);
 }
 
 namespace {
@@ -390,10 +352,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
       Request_Fcntl_descriptor_, &Request_Fcntl::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Request_Atstart_descriptor_, &Request_Atstart::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Request_Atfork_descriptor_, &Request_Atfork::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Request_Atexit_descriptor_, &Request_Atexit::default_instance());
 }
 
 }  // namespace
@@ -428,10 +386,6 @@ void protobuf_ShutdownFile_request_2eproto() {
   delete Request_Fcntl_reflection_;
   delete Request_Atstart::default_instance_;
   delete Request_Atstart_reflection_;
-  delete Request_Atfork::default_instance_;
-  delete Request_Atfork_reflection_;
-  delete Request_Atexit::default_instance_;
-  delete Request_Atexit_reflection_;
 }
 
 void protobuf_AddDesc_request_2eproto() GOOGLE_ATTRIBUTE_COLD;
@@ -442,7 +396,7 @@ void protobuf_AddDesc_request_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\rrequest.proto\"\347\007\n\007Request\022%\n\nsocketCal"
+    "\n\rrequest.proto\"\201\007\n\007Request\022%\n\nsocketCal"
     "l\030\001 \001(\0132\017.Request.SocketH\000\022\'\n\013connectCal"
     "l\030\002 \001(\0132\020.Request.ConnectH\000\022#\n\tcloseCall"
     "\030\003 \001(\0132\016.Request.CloseH\000\022)\n\014recvfromCall"
@@ -456,18 +410,15 @@ void protobuf_AddDesc_request_2eproto() {
     "optH\000\022-\n\016setsockoptCall\030\013 \001(\0132\023.Request."
     "SetsockoptH\000\022#\n\tfcntlCall\030\014 \001(\0132\016.Reques"
     "t.FcntlH\000\022)\n\ratstartAction\030\020 \001(\0132\020.Reque"
-    "st.AtstartH\000\022\'\n\014atforkAction\030\021 \001(\0132\017.Req"
-    "uest.AtforkH\000\022\'\n\014atexitAction\030\022 \001(\0132\017.Re"
-    "quest.AtexitH\000\022\013\n\003pid\030\017 \002(\004\0328\n\006Socket\022\016\n"
-    "\006domain\030\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\020\n\010protocol\030"
-    "\003 \002(\005\032\027\n\007Connect\022\014\n\004addr\030\001 \002(\014\032\007\n\005Close\032"
-    ";\n\010Recvfrom\022\013\n\003len\030\001 \002(\005\022\r\n\005flags\030\002 \002(\005\022"
-    "\023\n\013requireAddr\030\003 \002(\010\0322\n\006Sendto\022\013\n\003buf\030\001 "
-    "\002(\014\022\r\n\005flags\030\002 \002(\005\022\014\n\004addr\030\003 \001(\014\032\006\n\004Poll"
-    "\032\010\n\006Select\032\r\n\013Getpeername\032\r\n\013Getsockname"
-    "\032\014\n\nGetsockopt\032\014\n\nSetsockopt\032\007\n\005Fcntl\032\033\n"
-    "\007Atstart\022\020\n\010progname\030\001 \002(\t\032\010\n\006Atfork\032\010\n\006"
-    "AtexitB\t\n\007calling", 1017);
+    "st.AtstartH\000\022\013\n\003pid\030\017 \002(\004\0328\n\006Socket\022\016\n\006d"
+    "omain\030\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\020\n\010protocol\030\003 "
+    "\002(\005\032\027\n\007Connect\022\014\n\004addr\030\001 \002(\014\032\007\n\005Close\032;\n"
+    "\010Recvfrom\022\013\n\003len\030\001 \002(\005\022\r\n\005flags\030\002 \002(\005\022\023\n"
+    "\013requireAddr\030\003 \002(\010\0322\n\006Sendto\022\013\n\003buf\030\001 \002("
+    "\014\022\r\n\005flags\030\002 \002(\005\022\014\n\004addr\030\003 \001(\014\032\006\n\004Poll\032\010"
+    "\n\006Select\032\r\n\013Getpeername\032\r\n\013Getsockname\032\014"
+    "\n\nGetsockopt\032\014\n\nSetsockopt\032\007\n\005Fcntl\032\033\n\007A"
+    "tstart\022\020\n\010progname\030\001 \002(\tB\t\n\007calling", 915);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "request.proto", &protobuf_RegisterTypes);
   Request::default_instance_ = new Request();
@@ -485,8 +436,6 @@ void protobuf_AddDesc_request_2eproto() {
   Request_Setsockopt::default_instance_ = new Request_Setsockopt();
   Request_Fcntl::default_instance_ = new Request_Fcntl();
   Request_Atstart::default_instance_ = new Request_Atstart();
-  Request_Atfork::default_instance_ = new Request_Atfork();
-  Request_Atexit::default_instance_ = new Request_Atexit();
   Request::default_instance_->InitAsDefaultInstance();
   Request_Socket::default_instance_->InitAsDefaultInstance();
   Request_Connect::default_instance_->InitAsDefaultInstance();
@@ -501,8 +450,6 @@ void protobuf_AddDesc_request_2eproto() {
   Request_Setsockopt::default_instance_->InitAsDefaultInstance();
   Request_Fcntl::default_instance_->InitAsDefaultInstance();
   Request_Atstart::default_instance_->InitAsDefaultInstance();
-  Request_Atfork::default_instance_->InitAsDefaultInstance();
-  Request_Atexit::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_request_2eproto);
 }
 
@@ -3683,400 +3630,6 @@ void Request_Atstart::InternalSwap(Request_Atstart* other) {
 // -------------------------------------------------------------------
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Request_Atfork::Request_Atfork()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Request.Atfork)
-}
-
-void Request_Atfork::InitAsDefaultInstance() {
-}
-
-Request_Atfork::Request_Atfork(const Request_Atfork& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:Request.Atfork)
-}
-
-void Request_Atfork::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Request_Atfork::~Request_Atfork() {
-  // @@protoc_insertion_point(destructor:Request.Atfork)
-  SharedDtor();
-}
-
-void Request_Atfork::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Request_Atfork::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Request_Atfork::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Request_Atfork_descriptor_;
-}
-
-const Request_Atfork& Request_Atfork::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_request_2eproto();
-  return *default_instance_;
-}
-
-Request_Atfork* Request_Atfork::default_instance_ = NULL;
-
-Request_Atfork* Request_Atfork::New(::google::protobuf::Arena* arena) const {
-  Request_Atfork* n = new Request_Atfork;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Request_Atfork::Clear() {
-// @@protoc_insertion_point(message_clear_start:Request.Atfork)
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  if (_internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->Clear();
-  }
-}
-
-bool Request_Atfork::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:Request.Atfork)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0 ||
-        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, mutable_unknown_fields()));
-  }
-success:
-  // @@protoc_insertion_point(parse_success:Request.Atfork)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:Request.Atfork)
-  return false;
-#undef DO_
-}
-
-void Request_Atfork::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:Request.Atfork)
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:Request.Atfork)
-}
-
-::google::protobuf::uint8* Request_Atfork::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Request.Atfork)
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Request.Atfork)
-  return target;
-}
-
-int Request_Atfork::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:Request.Atfork)
-  int total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Request_Atfork::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Request.Atfork)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  const Request_Atfork* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Request_Atfork>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Request.Atfork)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Request.Atfork)
-    MergeFrom(*source);
-  }
-}
-
-void Request_Atfork::MergeFrom(const Request_Atfork& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Request.Atfork)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  if (from._internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-  }
-}
-
-void Request_Atfork::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Request.Atfork)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Request_Atfork::CopyFrom(const Request_Atfork& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Request.Atfork)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Request_Atfork::IsInitialized() const {
-
-  return true;
-}
-
-void Request_Atfork::Swap(Request_Atfork* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Request_Atfork::InternalSwap(Request_Atfork* other) {
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Request_Atfork::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Request_Atfork_descriptor_;
-  metadata.reflection = Request_Atfork_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Request_Atexit::Request_Atexit()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Request.Atexit)
-}
-
-void Request_Atexit::InitAsDefaultInstance() {
-}
-
-Request_Atexit::Request_Atexit(const Request_Atexit& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:Request.Atexit)
-}
-
-void Request_Atexit::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Request_Atexit::~Request_Atexit() {
-  // @@protoc_insertion_point(destructor:Request.Atexit)
-  SharedDtor();
-}
-
-void Request_Atexit::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Request_Atexit::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Request_Atexit::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Request_Atexit_descriptor_;
-}
-
-const Request_Atexit& Request_Atexit::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_request_2eproto();
-  return *default_instance_;
-}
-
-Request_Atexit* Request_Atexit::default_instance_ = NULL;
-
-Request_Atexit* Request_Atexit::New(::google::protobuf::Arena* arena) const {
-  Request_Atexit* n = new Request_Atexit;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Request_Atexit::Clear() {
-// @@protoc_insertion_point(message_clear_start:Request.Atexit)
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  if (_internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->Clear();
-  }
-}
-
-bool Request_Atexit::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:Request.Atexit)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0 ||
-        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, mutable_unknown_fields()));
-  }
-success:
-  // @@protoc_insertion_point(parse_success:Request.Atexit)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:Request.Atexit)
-  return false;
-#undef DO_
-}
-
-void Request_Atexit::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:Request.Atexit)
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:Request.Atexit)
-}
-
-::google::protobuf::uint8* Request_Atexit::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Request.Atexit)
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Request.Atexit)
-  return target;
-}
-
-int Request_Atexit::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:Request.Atexit)
-  int total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Request_Atexit::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Request.Atexit)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  const Request_Atexit* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Request_Atexit>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Request.Atexit)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Request.Atexit)
-    MergeFrom(*source);
-  }
-}
-
-void Request_Atexit::MergeFrom(const Request_Atexit& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Request.Atexit)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  if (from._internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-  }
-}
-
-void Request_Atexit::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Request.Atexit)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Request_Atexit::CopyFrom(const Request_Atexit& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Request.Atexit)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Request_Atexit::IsInitialized() const {
-
-  return true;
-}
-
-void Request_Atexit::Swap(Request_Atexit* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Request_Atexit::InternalSwap(Request_Atexit* other) {
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Request_Atexit::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Request_Atexit_descriptor_;
-  metadata.reflection = Request_Atexit_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Request::kSocketCallFieldNumber;
 const int Request::kConnectCallFieldNumber;
 const int Request::kCloseCallFieldNumber;
@@ -4090,8 +3643,6 @@ const int Request::kGetsockoptCallFieldNumber;
 const int Request::kSetsockoptCallFieldNumber;
 const int Request::kFcntlCallFieldNumber;
 const int Request::kAtstartActionFieldNumber;
-const int Request::kAtforkActionFieldNumber;
-const int Request::kAtexitActionFieldNumber;
 const int Request::kPidFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -4115,8 +3666,6 @@ void Request::InitAsDefaultInstance() {
   Request_default_oneof_instance_->setsockoptcall_ = const_cast< ::Request_Setsockopt*>(&::Request_Setsockopt::default_instance());
   Request_default_oneof_instance_->fcntlcall_ = const_cast< ::Request_Fcntl*>(&::Request_Fcntl::default_instance());
   Request_default_oneof_instance_->atstartaction_ = const_cast< ::Request_Atstart*>(&::Request_Atstart::default_instance());
-  Request_default_oneof_instance_->atforkaction_ = const_cast< ::Request_Atfork*>(&::Request_Atfork::default_instance());
-  Request_default_oneof_instance_->atexitaction_ = const_cast< ::Request_Atexit*>(&::Request_Atexit::default_instance());
 }
 
 Request::Request(const Request& from)
@@ -4225,14 +3774,6 @@ void Request::clear_calling() {
     }
     case kAtstartAction: {
       delete calling_.atstartaction_;
-      break;
-    }
-    case kAtforkAction: {
-      delete calling_.atforkaction_;
-      break;
-    }
-    case kAtexitAction: {
-      delete calling_.atexitaction_;
       break;
     }
     case CALLING_NOT_SET: {
@@ -4442,32 +3983,6 @@ bool Request::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(138)) goto parse_atforkAction;
-        break;
-      }
-
-      // optional .Request.Atfork atforkAction = 17;
-      case 17: {
-        if (tag == 138) {
-         parse_atforkAction:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_atforkaction()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(146)) goto parse_atexitAction;
-        break;
-      }
-
-      // optional .Request.Atexit atexitAction = 18;
-      case 18: {
-        if (tag == 146) {
-         parse_atexitAction:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_atexitaction()));
-        } else {
-          goto handle_unusual;
-        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -4580,18 +4095,6 @@ void Request::SerializeWithCachedSizes(
       16, *calling_.atstartaction_, output);
   }
 
-  // optional .Request.Atfork atforkAction = 17;
-  if (has_atforkaction()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      17, *calling_.atforkaction_, output);
-  }
-
-  // optional .Request.Atexit atexitAction = 18;
-  if (has_atexitaction()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      18, *calling_.atexitaction_, output);
-  }
-
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -4696,20 +4199,6 @@ void Request::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
         16, *calling_.atstartaction_, false, target);
-  }
-
-  // optional .Request.Atfork atforkAction = 17;
-  if (has_atforkaction()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        17, *calling_.atforkaction_, false, target);
-  }
-
-  // optional .Request.Atexit atexitAction = 18;
-  if (has_atexitaction()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        18, *calling_.atexitaction_, false, target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4822,20 +4311,6 @@ int Request::ByteSize() const {
           *calling_.atstartaction_);
       break;
     }
-    // optional .Request.Atfork atforkAction = 17;
-    case kAtforkAction: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *calling_.atforkaction_);
-      break;
-    }
-    // optional .Request.Atexit atexitAction = 18;
-    case kAtexitAction: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *calling_.atexitaction_);
-      break;
-    }
     case CALLING_NOT_SET: {
       break;
     }
@@ -4926,19 +4401,11 @@ void Request::MergeFrom(const Request& from) {
       mutable_atstartaction()->::Request_Atstart::MergeFrom(from.atstartaction());
       break;
     }
-    case kAtforkAction: {
-      mutable_atforkaction()->::Request_Atfork::MergeFrom(from.atforkaction());
-      break;
-    }
-    case kAtexitAction: {
-      mutable_atexitaction()->::Request_Atexit::MergeFrom(from.atexitaction());
-      break;
-    }
     case CALLING_NOT_SET: {
       break;
     }
   }
-  if (from._has_bits_[15 / 32] & (0xffu << (15 % 32))) {
+  if (from._has_bits_[13 / 32] & (0xffu << (13 % 32))) {
     if (from.has_pid()) {
       set_pid(from.pid());
     }
@@ -4963,7 +4430,7 @@ void Request::CopyFrom(const Request& from) {
 }
 
 bool Request::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00008000) != 0x00008000) return false;
+  if ((_has_bits_[0] & 0x00002000) != 0x00002000) return false;
 
   if (has_socketcall()) {
     if (!this->socketcall().IsInitialized()) return false;
@@ -5438,14 +4905,6 @@ void Request_Atstart::clear_progname() {
   progname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), progname);
   // @@protoc_insertion_point(field_set_allocated:Request.Atstart.progname)
 }
-
-// -------------------------------------------------------------------
-
-// Request_Atfork
-
-// -------------------------------------------------------------------
-
-// Request_Atexit
 
 // -------------------------------------------------------------------
 
@@ -6075,111 +5534,15 @@ void Request::set_allocated_atstartaction(::Request_Atstart* atstartaction) {
   // @@protoc_insertion_point(field_set_allocated:Request.atstartAction)
 }
 
-// optional .Request.Atfork atforkAction = 17;
-bool Request::has_atforkaction() const {
-  return calling_case() == kAtforkAction;
-}
-void Request::set_has_atforkaction() {
-  _oneof_case_[0] = kAtforkAction;
-}
-void Request::clear_atforkaction() {
-  if (has_atforkaction()) {
-    delete calling_.atforkaction_;
-    clear_has_calling();
-  }
-}
- const ::Request_Atfork& Request::atforkaction() const {
-  // @@protoc_insertion_point(field_get:Request.atforkAction)
-  return has_atforkaction()
-      ? *calling_.atforkaction_
-      : ::Request_Atfork::default_instance();
-}
-::Request_Atfork* Request::mutable_atforkaction() {
-  if (!has_atforkaction()) {
-    clear_calling();
-    set_has_atforkaction();
-    calling_.atforkaction_ = new ::Request_Atfork;
-  }
-  // @@protoc_insertion_point(field_mutable:Request.atforkAction)
-  return calling_.atforkaction_;
-}
-::Request_Atfork* Request::release_atforkaction() {
-  // @@protoc_insertion_point(field_release:Request.atforkAction)
-  if (has_atforkaction()) {
-    clear_has_calling();
-    ::Request_Atfork* temp = calling_.atforkaction_;
-    calling_.atforkaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-void Request::set_allocated_atforkaction(::Request_Atfork* atforkaction) {
-  clear_calling();
-  if (atforkaction) {
-    set_has_atforkaction();
-    calling_.atforkaction_ = atforkaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Request.atforkAction)
-}
-
-// optional .Request.Atexit atexitAction = 18;
-bool Request::has_atexitaction() const {
-  return calling_case() == kAtexitAction;
-}
-void Request::set_has_atexitaction() {
-  _oneof_case_[0] = kAtexitAction;
-}
-void Request::clear_atexitaction() {
-  if (has_atexitaction()) {
-    delete calling_.atexitaction_;
-    clear_has_calling();
-  }
-}
- const ::Request_Atexit& Request::atexitaction() const {
-  // @@protoc_insertion_point(field_get:Request.atexitAction)
-  return has_atexitaction()
-      ? *calling_.atexitaction_
-      : ::Request_Atexit::default_instance();
-}
-::Request_Atexit* Request::mutable_atexitaction() {
-  if (!has_atexitaction()) {
-    clear_calling();
-    set_has_atexitaction();
-    calling_.atexitaction_ = new ::Request_Atexit;
-  }
-  // @@protoc_insertion_point(field_mutable:Request.atexitAction)
-  return calling_.atexitaction_;
-}
-::Request_Atexit* Request::release_atexitaction() {
-  // @@protoc_insertion_point(field_release:Request.atexitAction)
-  if (has_atexitaction()) {
-    clear_has_calling();
-    ::Request_Atexit* temp = calling_.atexitaction_;
-    calling_.atexitaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-void Request::set_allocated_atexitaction(::Request_Atexit* atexitaction) {
-  clear_calling();
-  if (atexitaction) {
-    set_has_atexitaction();
-    calling_.atexitaction_ = atexitaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Request.atexitAction)
-}
-
 // required uint64 pid = 15;
 bool Request::has_pid() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
+  return (_has_bits_[0] & 0x00002000u) != 0;
 }
 void Request::set_has_pid() {
-  _has_bits_[0] |= 0x00008000u;
+  _has_bits_[0] |= 0x00002000u;
 }
 void Request::clear_has_pid() {
-  _has_bits_[0] &= ~0x00008000u;
+  _has_bits_[0] &= ~0x00002000u;
 }
 void Request::clear_pid() {
   pid_ = GOOGLE_ULONGLONG(0);

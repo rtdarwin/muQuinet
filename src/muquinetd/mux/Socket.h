@@ -51,8 +51,8 @@ public:
     bool nonblocking();
 
     void setWaiting(bool);
-    void onAsyncNewPacket(std::function<void()>);
-    SelectableChannel* getSelectableChannel();
+    void setOnAsyncNewPacketCB(std::function<void()>);
+    SelectableChannel* getAsyncNewPacketNotifyChannel();
 
     void putToRecvQ(struct sockaddr_in&, const std::shared_ptr<SocketBuffer>&);
     void takeFromRecvQ(struct sockaddr_in&, std::shared_ptr<SocketBuffer>&);

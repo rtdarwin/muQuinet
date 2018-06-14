@@ -29,8 +29,6 @@ typedef struct _Response__Getsockopt Response__Getsockopt;
 typedef struct _Response__Setsockopt Response__Setsockopt;
 typedef struct _Response__Fcntl Response__Fcntl;
 typedef struct _Response__Atstart Response__Atstart;
-typedef struct _Response__Atfork Response__Atfork;
-typedef struct _Response__Atexit Response__Atexit;
 
 
 /* --- enums --- */
@@ -250,30 +248,6 @@ struct  _Response__Atstart
     , 0, 0,0 }
 
 
-/*
- * 17
- */
-struct  _Response__Atfork
-{
-  ProtobufCMessage base;
-};
-#define RESPONSE__ATFORK__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&response__atfork__descriptor) \
-     }
-
-
-/*
- * 18
- */
-struct  _Response__Atexit
-{
-  ProtobufCMessage base;
-};
-#define RESPONSE__ATEXIT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&response__atexit__descriptor) \
-     }
-
-
 typedef enum {
   RESPONSE__RETURNING__NOT_SET = 0,
   RESPONSE__RETURNING_SOCKET_CALL = 1,
@@ -289,8 +263,6 @@ typedef enum {
   RESPONSE__RETURNING_SETSOCKOPT_CALL = 11,
   RESPONSE__RETURNING_FCNTL_CALL = 12,
   RESPONSE__RETURNING_ATSTART_ACTION = 16,
-  RESPONSE__RETURNING_ATFORK_ACTION = 17,
-  RESPONSE__RETURNING_ATEXIT_ACTION = 18,
 } Response__ReturningCase;
 
 struct  _Response
@@ -312,8 +284,6 @@ struct  _Response
     Response__Setsockopt *setsockoptcall;
     Response__Fcntl *fcntlcall;
     Response__Atstart *atstartaction;
-    Response__Atfork *atforkaction;
-    Response__Atexit *atexitaction;
   };
 };
 #define RESPONSE__INIT \
@@ -360,12 +330,6 @@ void   response__fcntl__init
 /* Response__Atstart methods */
 void   response__atstart__init
                      (Response__Atstart         *message);
-/* Response__Atfork methods */
-void   response__atfork__init
-                     (Response__Atfork         *message);
-/* Response__Atexit methods */
-void   response__atexit__init
-                     (Response__Atexit         *message);
 /* Response methods */
 void   response__init
                      (Response         *message);
@@ -426,12 +390,6 @@ typedef void (*Response__Fcntl_Closure)
 typedef void (*Response__Atstart_Closure)
                  (const Response__Atstart *message,
                   void *closure_data);
-typedef void (*Response__Atfork_Closure)
-                 (const Response__Atfork *message,
-                  void *closure_data);
-typedef void (*Response__Atexit_Closure)
-                 (const Response__Atexit *message,
-                  void *closure_data);
 typedef void (*Response_Closure)
                  (const Response *message,
                   void *closure_data);
@@ -455,8 +413,6 @@ extern const ProtobufCMessageDescriptor response__getsockopt__descriptor;
 extern const ProtobufCMessageDescriptor response__setsockopt__descriptor;
 extern const ProtobufCMessageDescriptor response__fcntl__descriptor;
 extern const ProtobufCMessageDescriptor response__atstart__descriptor;
-extern const ProtobufCMessageDescriptor response__atfork__descriptor;
-extern const ProtobufCMessageDescriptor response__atexit__descriptor;
 extern const ProtobufCEnumDescriptor    response__ret_code__descriptor;
 
 PROTOBUF_C__END_DECLS

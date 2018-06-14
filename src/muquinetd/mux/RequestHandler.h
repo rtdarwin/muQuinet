@@ -92,17 +92,11 @@ private:
                    , const std::shared_ptr<const Request>&
                    , const std::shared_ptr<Response>&);
 
-    /* 5. process/thread */
+    /* 5. process information */
 
     void atstartAction(const std::shared_ptr<ReqRespChannel>& rrChannel
                        , const std::shared_ptr<const Request>&
                        , const std::shared_ptr<Response>&);
-    void atforkAction(const std::shared_ptr<ReqRespChannel>& rrChannel
-                      , const std::shared_ptr<const Request>&
-                      , const std::shared_ptr<Response>&);
-    void atexitAction(const std::shared_ptr<ReqRespChannel>& rrChannel
-                      , const std::shared_ptr<const Request>&
-                      , const std::shared_ptr<Response>&);
     // clang-format on
 
     // weak_ptr rather than shared_ptr is essential

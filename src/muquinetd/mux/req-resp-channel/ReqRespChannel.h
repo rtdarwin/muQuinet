@@ -58,7 +58,7 @@ public:
     //  RequestHandler.
     //
     // clang-format off
-    void onNewRequest(
+    void setOnNewRequestCB(
         const std::function
          <
            std::shared_ptr<Response>
@@ -73,18 +73,10 @@ public:
 
     SelectableChannel* getSelectableChannel();
 
-    // Multiprocesses Support: PeerName, PeerPid, RefCnt
+    // process information
     void setPeerName(const std::string&);
     const std::string& peerName();
-    void addPeerPid(pid_t);
-    const std::vector<pid_t>& peerPids();
-
-    void setCloseOnExec(bool);
-    bool closeOnExec();
-
-    void increaseRefCount();
-    void decreaseRefCount();
-    int refCount();
+    void setPeerPid(pid_t);
 
     // 下接 Socket
     std::shared_ptr<Socket> socket();

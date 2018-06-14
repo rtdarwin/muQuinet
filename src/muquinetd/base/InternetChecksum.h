@@ -24,8 +24,8 @@
 
 namespace InternetChecksum {
 
-uint32_t checksum(void* addr, int count, int start_sum);
-  
+uint32_t checksum(const void* addr, int count, int start_sum);
+
 } // namespace InternetChecksum {
 
 #endif

@@ -232,8 +232,10 @@ close(int fd)
     {
         assert(resp->returning_case == RESPONSE__RETURNING_CLOSE_CALL);
 
-        // TODO: remove channel
+        // close coresponding channel
+        channel ch = fd2channel(fd);
         unset_fd2channel(fd, fd2channel(fd));
+        close_channel(ch);
 
         INTERCEPTOR_RETURN__RET_AND_ERRNO(closecall);
     }

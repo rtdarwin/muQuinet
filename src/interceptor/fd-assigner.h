@@ -23,6 +23,8 @@
 #include <stdbool.h>
 
 void ask_muquientd_fd_range();
+
+// for interceptor use
 bool is_assigned_by_muquinet(int fd);
 int next_avail_fd();
 

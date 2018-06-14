@@ -36,8 +36,6 @@ struct ResponseOneofInstance {
   const ::Response_Setsockopt* setsockoptcall_;
   const ::Response_Fcntl* fcntlcall_;
   const ::Response_Atstart* atstartaction_;
-  const ::Response_Atfork* atforkaction_;
-  const ::Response_Atexit* atexitaction_;
 }* Response_default_oneof_instance_ = NULL;
 const ::google::protobuf::Descriptor* Response_Socket_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
@@ -78,12 +76,6 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Response_Atstart_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Response_Atstart_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Response_Atfork_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Response_Atfork_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Response_Atexit_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Response_Atexit_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* Response_RetCode_descriptor_ = NULL;
 
 }  // namespace
@@ -97,7 +89,7 @@ void protobuf_AssignDesc_response_2eproto() {
       "response.proto");
   GOOGLE_CHECK(file != NULL);
   Response_descriptor_ = file->message_type(0);
-  static const int Response_offsets_[17] = {
+  static const int Response_offsets_[15] = {
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, socketcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, connectcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, closecall_),
@@ -111,8 +103,6 @@ void protobuf_AssignDesc_response_2eproto() {
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, setsockoptcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, fcntlcall_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, atstartaction_),
-    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, atforkaction_),
-    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Response_default_oneof_instance_, atexitaction_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response, retcode_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response, returning_),
   };
@@ -341,34 +331,6 @@ void protobuf_AssignDesc_response_2eproto() {
       sizeof(Response_Atstart),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response_Atstart, _internal_metadata_),
       -1);
-  Response_Atfork_descriptor_ = Response_descriptor_->nested_type(13);
-  static const int Response_Atfork_offsets_[1] = {
-  };
-  Response_Atfork_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Response_Atfork_descriptor_,
-      Response_Atfork::default_instance_,
-      Response_Atfork_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response_Atfork, _has_bits_[0]),
-      -1,
-      -1,
-      sizeof(Response_Atfork),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response_Atfork, _internal_metadata_),
-      -1);
-  Response_Atexit_descriptor_ = Response_descriptor_->nested_type(14);
-  static const int Response_Atexit_offsets_[1] = {
-  };
-  Response_Atexit_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Response_Atexit_descriptor_,
-      Response_Atexit::default_instance_,
-      Response_Atexit_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response_Atexit, _has_bits_[0]),
-      -1,
-      -1,
-      sizeof(Response_Atexit),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Response_Atexit, _internal_metadata_),
-      -1);
   Response_RetCode_descriptor_ = Response_descriptor_->enum_type(0);
 }
 
@@ -411,10 +373,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
       Response_Fcntl_descriptor_, &Response_Fcntl::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Response_Atstart_descriptor_, &Response_Atstart::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Response_Atfork_descriptor_, &Response_Atfork::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Response_Atexit_descriptor_, &Response_Atexit::default_instance());
 }
 
 }  // namespace
@@ -449,10 +407,6 @@ void protobuf_ShutdownFile_response_2eproto() {
   delete Response_Fcntl_reflection_;
   delete Response_Atstart::default_instance_;
   delete Response_Atstart_reflection_;
-  delete Response_Atfork::default_instance_;
-  delete Response_Atfork_reflection_;
-  delete Response_Atexit::default_instance_;
-  delete Response_Atexit_reflection_;
 }
 
 void protobuf_AddDesc_response_2eproto() GOOGLE_ATTRIBUTE_COLD;
@@ -463,7 +417,7 @@ void protobuf_AddDesc_response_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\016response.proto\"\315\n\n\010Response\022&\n\nsocketC"
+    "\n\016response.proto\"\345\t\n\010Response\022&\n\nsocketC"
     "all\030\001 \001(\0132\020.Response.SocketH\000\022(\n\013connect"
     "Call\030\002 \001(\0132\021.Response.ConnectH\000\022$\n\tclose"
     "Call\030\003 \001(\0132\017.Response.CloseH\000\022*\n\014recvfro"
@@ -477,27 +431,24 @@ void protobuf_AddDesc_response_2eproto() {
     "onse.GetsockoptH\000\022.\n\016setsockoptCall\030\013 \001("
     "\0132\024.Response.SetsockoptH\000\022$\n\tfcntlCall\030\014"
     " \001(\0132\017.Response.FcntlH\000\022*\n\ratstartAction"
-    "\030\020 \001(\0132\021.Response.AtstartH\000\022(\n\014atforkAct"
-    "ion\030\021 \001(\0132\020.Response.AtforkH\000\022(\n\014atexitA"
-    "ction\030\022 \001(\0132\020.Response.AtexitH\000\022\"\n\007retCo"
-    "de\030\017 \002(\0162\021.Response.RetCode\032%\n\006Socket\022\013\n"
-    "\003ret\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\032&\n\007Connect\022\013\n"
-    "\003ret\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\032$\n\005Close\022\013\n\003r"
-    "et\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\032B\n\010Recvfrom\022\013\n\003"
-    "ret\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\022\013\n\003buf\030\003 \001(\014\022\014"
-    "\n\004addr\030\004 \001(\014\032%\n\006Sendto\022\013\n\003ret\030\001 \002(\005\022\016\n\006e"
-    "rrno_\030\002 \001(\005\032#\n\004Poll\022\013\n\003ret\030\001 \002(\005\022\016\n\006errn"
-    "o_\030\002 \001(\005\032%\n\006Select\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno"
-    "_\030\002 \001(\005\032<\n\013Getpeername\022\013\n\003ret\030\001 \002(\005\022\016\n\006e"
-    "rrno_\030\002 \001(\005\022\020\n\010peername\030\003 \001(\014\032<\n\013Getsock"
-    "name\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\022\020\n\010soc"
-    "kanme\030\003 \001(\014\032)\n\nGetsockopt\022\013\n\003ret\030\001 \002(\005\022\016"
-    "\n\006errno_\030\002 \001(\005\032)\n\nSetsockopt\022\013\n\003ret\030\001 \002("
-    "\005\022\016\n\006errno_\030\002 \001(\005\032$\n\005Fcntl\022\013\n\003ret\030\001 \002(\005\022"
-    "\016\n\006errno_\030\002 \001(\005\032)\n\007Atstart\022\017\n\007startfd\030\001 "
-    "\002(\005\022\r\n\005count\030\002 \001(\005\032\010\n\006Atfork\032\010\n\006Atexit\"+"
-    "\n\007RetCode\022\006\n\002OK\020\000\022\t\n\005ERROR\020\001\022\r\n\tWAIT_NEX"
-    "T\020\002B\013\n\treturning", 1376);
+    "\030\020 \001(\0132\021.Response.AtstartH\000\022\"\n\007retCode\030\017"
+    " \002(\0162\021.Response.RetCode\032%\n\006Socket\022\013\n\003ret"
+    "\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\032&\n\007Connect\022\013\n\003ret"
+    "\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\032$\n\005Close\022\013\n\003ret\030\001"
+    " \002(\005\022\016\n\006errno_\030\002 \001(\005\032B\n\010Recvfrom\022\013\n\003ret\030"
+    "\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\022\013\n\003buf\030\003 \001(\014\022\014\n\004ad"
+    "dr\030\004 \001(\014\032%\n\006Sendto\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno"
+    "_\030\002 \001(\005\032#\n\004Poll\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno_\030\002"
+    " \001(\005\032%\n\006Select\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno_\030\002 "
+    "\001(\005\032<\n\013Getpeername\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno"
+    "_\030\002 \001(\005\022\020\n\010peername\030\003 \001(\014\032<\n\013Getsockname"
+    "\022\013\n\003ret\030\001 \002(\005\022\016\n\006errno_\030\002 \001(\005\022\020\n\010sockanm"
+    "e\030\003 \001(\014\032)\n\nGetsockopt\022\013\n\003ret\030\001 \002(\005\022\016\n\006er"
+    "rno_\030\002 \001(\005\032)\n\nSetsockopt\022\013\n\003ret\030\001 \002(\005\022\016\n"
+    "\006errno_\030\002 \001(\005\032$\n\005Fcntl\022\013\n\003ret\030\001 \002(\005\022\016\n\006e"
+    "rrno_\030\002 \001(\005\032)\n\007Atstart\022\017\n\007startfd\030\001 \002(\005\022"
+    "\r\n\005count\030\002 \001(\005\"+\n\007RetCode\022\006\n\002OK\020\000\022\t\n\005ERR"
+    "OR\020\001\022\r\n\tWAIT_NEXT\020\002B\013\n\treturning", 1272);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "response.proto", &protobuf_RegisterTypes);
   Response::default_instance_ = new Response();
@@ -515,8 +466,6 @@ void protobuf_AddDesc_response_2eproto() {
   Response_Setsockopt::default_instance_ = new Response_Setsockopt();
   Response_Fcntl::default_instance_ = new Response_Fcntl();
   Response_Atstart::default_instance_ = new Response_Atstart();
-  Response_Atfork::default_instance_ = new Response_Atfork();
-  Response_Atexit::default_instance_ = new Response_Atexit();
   Response::default_instance_->InitAsDefaultInstance();
   Response_Socket::default_instance_->InitAsDefaultInstance();
   Response_Connect::default_instance_->InitAsDefaultInstance();
@@ -531,8 +480,6 @@ void protobuf_AddDesc_response_2eproto() {
   Response_Setsockopt::default_instance_->InitAsDefaultInstance();
   Response_Fcntl::default_instance_->InitAsDefaultInstance();
   Response_Atstart::default_instance_->InitAsDefaultInstance();
-  Response_Atfork::default_instance_->InitAsDefaultInstance();
-  Response_Atexit::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_response_2eproto);
 }
 
@@ -4673,400 +4620,6 @@ void Response_Atstart::InternalSwap(Response_Atstart* other) {
 // -------------------------------------------------------------------
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Response_Atfork::Response_Atfork()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Response.Atfork)
-}
-
-void Response_Atfork::InitAsDefaultInstance() {
-}
-
-Response_Atfork::Response_Atfork(const Response_Atfork& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:Response.Atfork)
-}
-
-void Response_Atfork::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Response_Atfork::~Response_Atfork() {
-  // @@protoc_insertion_point(destructor:Response.Atfork)
-  SharedDtor();
-}
-
-void Response_Atfork::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Response_Atfork::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Response_Atfork::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Response_Atfork_descriptor_;
-}
-
-const Response_Atfork& Response_Atfork::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_response_2eproto();
-  return *default_instance_;
-}
-
-Response_Atfork* Response_Atfork::default_instance_ = NULL;
-
-Response_Atfork* Response_Atfork::New(::google::protobuf::Arena* arena) const {
-  Response_Atfork* n = new Response_Atfork;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Response_Atfork::Clear() {
-// @@protoc_insertion_point(message_clear_start:Response.Atfork)
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  if (_internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->Clear();
-  }
-}
-
-bool Response_Atfork::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:Response.Atfork)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0 ||
-        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, mutable_unknown_fields()));
-  }
-success:
-  // @@protoc_insertion_point(parse_success:Response.Atfork)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:Response.Atfork)
-  return false;
-#undef DO_
-}
-
-void Response_Atfork::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:Response.Atfork)
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:Response.Atfork)
-}
-
-::google::protobuf::uint8* Response_Atfork::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Response.Atfork)
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Response.Atfork)
-  return target;
-}
-
-int Response_Atfork::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:Response.Atfork)
-  int total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Response_Atfork::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Response.Atfork)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  const Response_Atfork* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Response_Atfork>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Response.Atfork)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Response.Atfork)
-    MergeFrom(*source);
-  }
-}
-
-void Response_Atfork::MergeFrom(const Response_Atfork& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Response.Atfork)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  if (from._internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-  }
-}
-
-void Response_Atfork::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Response.Atfork)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Response_Atfork::CopyFrom(const Response_Atfork& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Response.Atfork)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Response_Atfork::IsInitialized() const {
-
-  return true;
-}
-
-void Response_Atfork::Swap(Response_Atfork* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Response_Atfork::InternalSwap(Response_Atfork* other) {
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Response_Atfork::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Response_Atfork_descriptor_;
-  metadata.reflection = Response_Atfork_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Response_Atexit::Response_Atexit()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Response.Atexit)
-}
-
-void Response_Atexit::InitAsDefaultInstance() {
-}
-
-Response_Atexit::Response_Atexit(const Response_Atexit& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:Response.Atexit)
-}
-
-void Response_Atexit::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Response_Atexit::~Response_Atexit() {
-  // @@protoc_insertion_point(destructor:Response.Atexit)
-  SharedDtor();
-}
-
-void Response_Atexit::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Response_Atexit::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Response_Atexit::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Response_Atexit_descriptor_;
-}
-
-const Response_Atexit& Response_Atexit::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_response_2eproto();
-  return *default_instance_;
-}
-
-Response_Atexit* Response_Atexit::default_instance_ = NULL;
-
-Response_Atexit* Response_Atexit::New(::google::protobuf::Arena* arena) const {
-  Response_Atexit* n = new Response_Atexit;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Response_Atexit::Clear() {
-// @@protoc_insertion_point(message_clear_start:Response.Atexit)
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  if (_internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->Clear();
-  }
-}
-
-bool Response_Atexit::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:Response.Atexit)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0 ||
-        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, mutable_unknown_fields()));
-  }
-success:
-  // @@protoc_insertion_point(parse_success:Response.Atexit)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:Response.Atexit)
-  return false;
-#undef DO_
-}
-
-void Response_Atexit::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:Response.Atexit)
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:Response.Atexit)
-}
-
-::google::protobuf::uint8* Response_Atexit::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Response.Atexit)
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Response.Atexit)
-  return target;
-}
-
-int Response_Atexit::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:Response.Atexit)
-  int total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Response_Atexit::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Response.Atexit)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  const Response_Atexit* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Response_Atexit>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Response.Atexit)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Response.Atexit)
-    MergeFrom(*source);
-  }
-}
-
-void Response_Atexit::MergeFrom(const Response_Atexit& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Response.Atexit)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  if (from._internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-  }
-}
-
-void Response_Atexit::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Response.Atexit)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Response_Atexit::CopyFrom(const Response_Atexit& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Response.Atexit)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Response_Atexit::IsInitialized() const {
-
-  return true;
-}
-
-void Response_Atexit::Swap(Response_Atexit* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Response_Atexit::InternalSwap(Response_Atexit* other) {
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Response_Atexit::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Response_Atexit_descriptor_;
-  metadata.reflection = Response_Atexit_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Response::kSocketCallFieldNumber;
 const int Response::kConnectCallFieldNumber;
 const int Response::kCloseCallFieldNumber;
@@ -5080,8 +4633,6 @@ const int Response::kGetsockoptCallFieldNumber;
 const int Response::kSetsockoptCallFieldNumber;
 const int Response::kFcntlCallFieldNumber;
 const int Response::kAtstartActionFieldNumber;
-const int Response::kAtforkActionFieldNumber;
-const int Response::kAtexitActionFieldNumber;
 const int Response::kRetCodeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -5105,8 +4656,6 @@ void Response::InitAsDefaultInstance() {
   Response_default_oneof_instance_->setsockoptcall_ = const_cast< ::Response_Setsockopt*>(&::Response_Setsockopt::default_instance());
   Response_default_oneof_instance_->fcntlcall_ = const_cast< ::Response_Fcntl*>(&::Response_Fcntl::default_instance());
   Response_default_oneof_instance_->atstartaction_ = const_cast< ::Response_Atstart*>(&::Response_Atstart::default_instance());
-  Response_default_oneof_instance_->atforkaction_ = const_cast< ::Response_Atfork*>(&::Response_Atfork::default_instance());
-  Response_default_oneof_instance_->atexitaction_ = const_cast< ::Response_Atexit*>(&::Response_Atexit::default_instance());
 }
 
 Response::Response(const Response& from)
@@ -5215,14 +4764,6 @@ void Response::clear_returning() {
     }
     case kAtstartAction: {
       delete returning_.atstartaction_;
-      break;
-    }
-    case kAtforkAction: {
-      delete returning_.atforkaction_;
-      break;
-    }
-    case kAtexitAction: {
-      delete returning_.atexitaction_;
       break;
     }
     case RETURNING_NOT_SET: {
@@ -5437,32 +4978,6 @@ bool Response::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(138)) goto parse_atforkAction;
-        break;
-      }
-
-      // optional .Response.Atfork atforkAction = 17;
-      case 17: {
-        if (tag == 138) {
-         parse_atforkAction:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_atforkaction()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(146)) goto parse_atexitAction;
-        break;
-      }
-
-      // optional .Response.Atexit atexitAction = 18;
-      case 18: {
-        if (tag == 146) {
-         parse_atexitAction:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_atexitaction()));
-        } else {
-          goto handle_unusual;
-        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -5576,18 +5091,6 @@ void Response::SerializeWithCachedSizes(
       16, *returning_.atstartaction_, output);
   }
 
-  // optional .Response.Atfork atforkAction = 17;
-  if (has_atforkaction()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      17, *returning_.atforkaction_, output);
-  }
-
-  // optional .Response.Atexit atexitAction = 18;
-  if (has_atexitaction()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      18, *returning_.atexitaction_, output);
-  }
-
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -5693,20 +5196,6 @@ void Response::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
         16, *returning_.atstartaction_, false, target);
-  }
-
-  // optional .Response.Atfork atforkAction = 17;
-  if (has_atforkaction()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        17, *returning_.atforkaction_, false, target);
-  }
-
-  // optional .Response.Atexit atexitAction = 18;
-  if (has_atexitaction()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        18, *returning_.atexitaction_, false, target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -5818,20 +5307,6 @@ int Response::ByteSize() const {
           *returning_.atstartaction_);
       break;
     }
-    // optional .Response.Atfork atforkAction = 17;
-    case kAtforkAction: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *returning_.atforkaction_);
-      break;
-    }
-    // optional .Response.Atexit atexitAction = 18;
-    case kAtexitAction: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *returning_.atexitaction_);
-      break;
-    }
     case RETURNING_NOT_SET: {
       break;
     }
@@ -5922,19 +5397,11 @@ void Response::MergeFrom(const Response& from) {
       mutable_atstartaction()->::Response_Atstart::MergeFrom(from.atstartaction());
       break;
     }
-    case kAtforkAction: {
-      mutable_atforkaction()->::Response_Atfork::MergeFrom(from.atforkaction());
-      break;
-    }
-    case kAtexitAction: {
-      mutable_atexitaction()->::Response_Atexit::MergeFrom(from.atexitaction());
-      break;
-    }
     case RETURNING_NOT_SET: {
       break;
     }
   }
-  if (from._has_bits_[15 / 32] & (0xffu << (15 % 32))) {
+  if (from._has_bits_[13 / 32] & (0xffu << (13 % 32))) {
     if (from.has_retcode()) {
       set_retcode(from.retcode());
     }
@@ -5959,7 +5426,7 @@ void Response::CopyFrom(const Response& from) {
 }
 
 bool Response::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00008000) != 0x00008000) return false;
+  if ((_has_bits_[0] & 0x00002000) != 0x00002000) return false;
 
   if (has_socketcall()) {
     if (!this->socketcall().IsInitialized()) return false;
@@ -6917,14 +6384,6 @@ void Response_Atstart::clear_count() {
 
 // -------------------------------------------------------------------
 
-// Response_Atfork
-
-// -------------------------------------------------------------------
-
-// Response_Atexit
-
-// -------------------------------------------------------------------
-
 // Response
 
 // optional .Response.Socket socketCall = 1;
@@ -7551,111 +7010,15 @@ void Response::set_allocated_atstartaction(::Response_Atstart* atstartaction) {
   // @@protoc_insertion_point(field_set_allocated:Response.atstartAction)
 }
 
-// optional .Response.Atfork atforkAction = 17;
-bool Response::has_atforkaction() const {
-  return returning_case() == kAtforkAction;
-}
-void Response::set_has_atforkaction() {
-  _oneof_case_[0] = kAtforkAction;
-}
-void Response::clear_atforkaction() {
-  if (has_atforkaction()) {
-    delete returning_.atforkaction_;
-    clear_has_returning();
-  }
-}
- const ::Response_Atfork& Response::atforkaction() const {
-  // @@protoc_insertion_point(field_get:Response.atforkAction)
-  return has_atforkaction()
-      ? *returning_.atforkaction_
-      : ::Response_Atfork::default_instance();
-}
-::Response_Atfork* Response::mutable_atforkaction() {
-  if (!has_atforkaction()) {
-    clear_returning();
-    set_has_atforkaction();
-    returning_.atforkaction_ = new ::Response_Atfork;
-  }
-  // @@protoc_insertion_point(field_mutable:Response.atforkAction)
-  return returning_.atforkaction_;
-}
-::Response_Atfork* Response::release_atforkaction() {
-  // @@protoc_insertion_point(field_release:Response.atforkAction)
-  if (has_atforkaction()) {
-    clear_has_returning();
-    ::Response_Atfork* temp = returning_.atforkaction_;
-    returning_.atforkaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-void Response::set_allocated_atforkaction(::Response_Atfork* atforkaction) {
-  clear_returning();
-  if (atforkaction) {
-    set_has_atforkaction();
-    returning_.atforkaction_ = atforkaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Response.atforkAction)
-}
-
-// optional .Response.Atexit atexitAction = 18;
-bool Response::has_atexitaction() const {
-  return returning_case() == kAtexitAction;
-}
-void Response::set_has_atexitaction() {
-  _oneof_case_[0] = kAtexitAction;
-}
-void Response::clear_atexitaction() {
-  if (has_atexitaction()) {
-    delete returning_.atexitaction_;
-    clear_has_returning();
-  }
-}
- const ::Response_Atexit& Response::atexitaction() const {
-  // @@protoc_insertion_point(field_get:Response.atexitAction)
-  return has_atexitaction()
-      ? *returning_.atexitaction_
-      : ::Response_Atexit::default_instance();
-}
-::Response_Atexit* Response::mutable_atexitaction() {
-  if (!has_atexitaction()) {
-    clear_returning();
-    set_has_atexitaction();
-    returning_.atexitaction_ = new ::Response_Atexit;
-  }
-  // @@protoc_insertion_point(field_mutable:Response.atexitAction)
-  return returning_.atexitaction_;
-}
-::Response_Atexit* Response::release_atexitaction() {
-  // @@protoc_insertion_point(field_release:Response.atexitAction)
-  if (has_atexitaction()) {
-    clear_has_returning();
-    ::Response_Atexit* temp = returning_.atexitaction_;
-    returning_.atexitaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-void Response::set_allocated_atexitaction(::Response_Atexit* atexitaction) {
-  clear_returning();
-  if (atexitaction) {
-    set_has_atexitaction();
-    returning_.atexitaction_ = atexitaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Response.atexitAction)
-}
-
 // required .Response.RetCode retCode = 15;
 bool Response::has_retcode() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
+  return (_has_bits_[0] & 0x00002000u) != 0;
 }
 void Response::set_has_retcode() {
-  _has_bits_[0] |= 0x00008000u;
+  _has_bits_[0] |= 0x00002000u;
 }
 void Response::clear_has_retcode() {
-  _has_bits_[0] &= ~0x00008000u;
+  _has_bits_[0] &= ~0x00002000u;
 }
 void Response::clear_retcode() {
   retcode_ = 0;

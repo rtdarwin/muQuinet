@@ -35,8 +35,6 @@ void protobuf_AssignDesc_request_2eproto();
 void protobuf_ShutdownFile_request_2eproto();
 
 class Request;
-class Request_Atexit;
-class Request_Atfork;
 class Request_Atstart;
 class Request_Close;
 class Request_Connect;
@@ -1271,172 +1269,6 @@ class Request_Atstart : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
-class Request_Atfork : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Request.Atfork) */ {
- public:
-  Request_Atfork();
-  virtual ~Request_Atfork();
-
-  Request_Atfork(const Request_Atfork& from);
-
-  inline Request_Atfork& operator=(const Request_Atfork& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Request_Atfork& default_instance();
-
-  void Swap(Request_Atfork* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Request_Atfork* New() const { return New(NULL); }
-
-  Request_Atfork* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Request_Atfork& from);
-  void MergeFrom(const Request_Atfork& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
-    return InternalSerializeWithCachedSizesToArray(false, output);
-  }
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Request_Atfork* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:Request.Atfork)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 _has_bits_[1];
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_request_2eproto();
-  friend void protobuf_AssignDesc_request_2eproto();
-  friend void protobuf_ShutdownFile_request_2eproto();
-
-  void InitAsDefaultInstance();
-  static Request_Atfork* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Request_Atexit : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Request.Atexit) */ {
- public:
-  Request_Atexit();
-  virtual ~Request_Atexit();
-
-  Request_Atexit(const Request_Atexit& from);
-
-  inline Request_Atexit& operator=(const Request_Atexit& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Request_Atexit& default_instance();
-
-  void Swap(Request_Atexit* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Request_Atexit* New() const { return New(NULL); }
-
-  Request_Atexit* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Request_Atexit& from);
-  void MergeFrom(const Request_Atexit& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
-    return InternalSerializeWithCachedSizesToArray(false, output);
-  }
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Request_Atexit* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:Request.Atexit)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 _has_bits_[1];
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_request_2eproto();
-  friend void protobuf_AssignDesc_request_2eproto();
-  friend void protobuf_ShutdownFile_request_2eproto();
-
-  void InitAsDefaultInstance();
-  static Request_Atexit* default_instance_;
-};
-// -------------------------------------------------------------------
-
 class Request : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Request) */ {
  public:
   Request();
@@ -1474,8 +1306,6 @@ class Request : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kSetsockoptCall = 11,
     kFcntlCall = 12,
     kAtstartAction = 16,
-    kAtforkAction = 17,
-    kAtexitAction = 18,
     CALLING_NOT_SET = 0,
   };
 
@@ -1535,8 +1365,6 @@ class Request : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   typedef Request_Setsockopt Setsockopt;
   typedef Request_Fcntl Fcntl;
   typedef Request_Atstart Atstart;
-  typedef Request_Atfork Atfork;
-  typedef Request_Atexit Atexit;
 
   // accessors -------------------------------------------------------
 
@@ -1657,24 +1485,6 @@ class Request : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::Request_Atstart* release_atstartaction();
   void set_allocated_atstartaction(::Request_Atstart* atstartaction);
 
-  // optional .Request.Atfork atforkAction = 17;
-  bool has_atforkaction() const;
-  void clear_atforkaction();
-  static const int kAtforkActionFieldNumber = 17;
-  const ::Request_Atfork& atforkaction() const;
-  ::Request_Atfork* mutable_atforkaction();
-  ::Request_Atfork* release_atforkaction();
-  void set_allocated_atforkaction(::Request_Atfork* atforkaction);
-
-  // optional .Request.Atexit atexitAction = 18;
-  bool has_atexitaction() const;
-  void clear_atexitaction();
-  static const int kAtexitActionFieldNumber = 18;
-  const ::Request_Atexit& atexitaction() const;
-  ::Request_Atexit* mutable_atexitaction();
-  ::Request_Atexit* release_atexitaction();
-  void set_allocated_atexitaction(::Request_Atexit* atexitaction);
-
   // required uint64 pid = 15;
   bool has_pid() const;
   void clear_pid();
@@ -1698,8 +1508,6 @@ class Request : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   inline void set_has_setsockoptcall();
   inline void set_has_fcntlcall();
   inline void set_has_atstartaction();
-  inline void set_has_atforkaction();
-  inline void set_has_atexitaction();
   inline void set_has_pid();
   inline void clear_has_pid();
 
@@ -1726,8 +1534,6 @@ class Request : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::Request_Setsockopt* setsockoptcall_;
     ::Request_Fcntl* fcntlcall_;
     ::Request_Atstart* atstartaction_;
-    ::Request_Atfork* atforkaction_;
-    ::Request_Atexit* atexitaction_;
   } calling_;
   ::google::protobuf::uint32 _oneof_case_[1];
 
@@ -2177,14 +1983,6 @@ inline void Request_Atstart::set_allocated_progname(::std::string* progname) {
   progname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), progname);
   // @@protoc_insertion_point(field_set_allocated:Request.Atstart.progname)
 }
-
-// -------------------------------------------------------------------
-
-// Request_Atfork
-
-// -------------------------------------------------------------------
-
-// Request_Atexit
 
 // -------------------------------------------------------------------
 
@@ -2814,111 +2612,15 @@ inline void Request::set_allocated_atstartaction(::Request_Atstart* atstartactio
   // @@protoc_insertion_point(field_set_allocated:Request.atstartAction)
 }
 
-// optional .Request.Atfork atforkAction = 17;
-inline bool Request::has_atforkaction() const {
-  return calling_case() == kAtforkAction;
-}
-inline void Request::set_has_atforkaction() {
-  _oneof_case_[0] = kAtforkAction;
-}
-inline void Request::clear_atforkaction() {
-  if (has_atforkaction()) {
-    delete calling_.atforkaction_;
-    clear_has_calling();
-  }
-}
-inline  const ::Request_Atfork& Request::atforkaction() const {
-  // @@protoc_insertion_point(field_get:Request.atforkAction)
-  return has_atforkaction()
-      ? *calling_.atforkaction_
-      : ::Request_Atfork::default_instance();
-}
-inline ::Request_Atfork* Request::mutable_atforkaction() {
-  if (!has_atforkaction()) {
-    clear_calling();
-    set_has_atforkaction();
-    calling_.atforkaction_ = new ::Request_Atfork;
-  }
-  // @@protoc_insertion_point(field_mutable:Request.atforkAction)
-  return calling_.atforkaction_;
-}
-inline ::Request_Atfork* Request::release_atforkaction() {
-  // @@protoc_insertion_point(field_release:Request.atforkAction)
-  if (has_atforkaction()) {
-    clear_has_calling();
-    ::Request_Atfork* temp = calling_.atforkaction_;
-    calling_.atforkaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline void Request::set_allocated_atforkaction(::Request_Atfork* atforkaction) {
-  clear_calling();
-  if (atforkaction) {
-    set_has_atforkaction();
-    calling_.atforkaction_ = atforkaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Request.atforkAction)
-}
-
-// optional .Request.Atexit atexitAction = 18;
-inline bool Request::has_atexitaction() const {
-  return calling_case() == kAtexitAction;
-}
-inline void Request::set_has_atexitaction() {
-  _oneof_case_[0] = kAtexitAction;
-}
-inline void Request::clear_atexitaction() {
-  if (has_atexitaction()) {
-    delete calling_.atexitaction_;
-    clear_has_calling();
-  }
-}
-inline  const ::Request_Atexit& Request::atexitaction() const {
-  // @@protoc_insertion_point(field_get:Request.atexitAction)
-  return has_atexitaction()
-      ? *calling_.atexitaction_
-      : ::Request_Atexit::default_instance();
-}
-inline ::Request_Atexit* Request::mutable_atexitaction() {
-  if (!has_atexitaction()) {
-    clear_calling();
-    set_has_atexitaction();
-    calling_.atexitaction_ = new ::Request_Atexit;
-  }
-  // @@protoc_insertion_point(field_mutable:Request.atexitAction)
-  return calling_.atexitaction_;
-}
-inline ::Request_Atexit* Request::release_atexitaction() {
-  // @@protoc_insertion_point(field_release:Request.atexitAction)
-  if (has_atexitaction()) {
-    clear_has_calling();
-    ::Request_Atexit* temp = calling_.atexitaction_;
-    calling_.atexitaction_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline void Request::set_allocated_atexitaction(::Request_Atexit* atexitaction) {
-  clear_calling();
-  if (atexitaction) {
-    set_has_atexitaction();
-    calling_.atexitaction_ = atexitaction;
-  }
-  // @@protoc_insertion_point(field_set_allocated:Request.atexitAction)
-}
-
 // required uint64 pid = 15;
 inline bool Request::has_pid() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
+  return (_has_bits_[0] & 0x00002000u) != 0;
 }
 inline void Request::set_has_pid() {
-  _has_bits_[0] |= 0x00008000u;
+  _has_bits_[0] |= 0x00002000u;
 }
 inline void Request::clear_has_pid() {
-  _has_bits_[0] &= ~0x00008000u;
+  _has_bits_[0] &= ~0x00002000u;
 }
 inline void Request::clear_pid() {
   pid_ = GOOGLE_ULONGLONG(0);
@@ -2944,10 +2646,6 @@ inline Request::CallingCase Request::calling_case() const {
   return Request::CallingCase(_oneof_case_[0]);
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

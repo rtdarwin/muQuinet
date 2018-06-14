@@ -13,6 +13,9 @@
 int
 main(int argc, char* argv[])
 {
+    char* dest_ipaddr = argv[1];
+    short dest_port = atoi(argv[2]);
+
     /* 1. socket */
 
     {
@@ -30,8 +33,8 @@ main(int argc, char* argv[])
     bzero(&remote, sizeof(struct sockaddr_in));
 
     remote.sin_family = AF_INET;
-    inet_pton(AF_INET, "192.168.168.8", &remote.sin_addr);
-    remote.sin_port = htons(80);
+    inet_pton(AF_INET, dest_ipaddr, &remote.sin_addr);
+    remote.sin_port = htons(dest_port);
 
     {
         printf("sendto: %s\n", msg);

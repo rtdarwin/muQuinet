@@ -82,7 +82,7 @@ MasterListener::MasterListener()
     _pImpl->fd = listenfd;
 
     auto listenCh = make_shared<SelectableChannel>(listenfd);
-    listenCh->onRead([this]() { this->_pImpl->onReadReady(); });
+    listenCh->setOnReadCB([this]() { this->_pImpl->onReadReady(); });
     listenCh->enableReading();
     _pImpl->listenChannel = listenCh;
 }

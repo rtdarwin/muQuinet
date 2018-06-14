@@ -54,21 +54,21 @@ EventLoop::~EventLoop() = default;
 void
 EventLoop::addChannel(SelectableChannel* c)
 {
-    MUQUINETD_LOG(info) << "EventLoop adding a Channel";
+    MUQUINETD_LOG(info) << "Adding a SelectableChannel";
 
     if (!this->hasChannel(c)) {
         _pImpl->poller->addChannel(c);
         _pImpl->channels.push_back(c);
     } else {
         MUQUINETD_LOG(error)
-            << "trying to add a Channel already in this EventLoop";
+            << "Trying to add a Channel already in this EventLoop";
     }
 }
 
 void
 EventLoop::removeChannel(SelectableChannel* c)
 {
-    MUQUINETD_LOG(info) << "EventLoop removing a Channel";
+    MUQUINETD_LOG(debug) << "Removing a SelectableChannel";
 
     if (this->hasChannel(c)) {
         _pImpl->poller->removeChannel(c);
@@ -79,20 +79,20 @@ EventLoop::removeChannel(SelectableChannel* c)
 
     } else {
         MUQUINETD_LOG(error)
-            << "trying to remove a Channel not in this EventLoop";
+            << "Trying to remove a Channel not in this EventLoop";
     }
 }
 
 void
 EventLoop::updateChannel(SelectableChannel* c)
 {
-    MUQUINETD_LOG(info) << "EventLoop modifying a Channel";
+    MUQUINETD_LOG(debug) << "Modifying a SelectableChannel";
 
     if (this->hasChannel(c)) {
         _pImpl->poller->updateChannel(c);
     } else {
         MUQUINETD_LOG(error)
-            << "trying to update a Channel not in this EventLoop";
+            << "Trying to update a Channel not in this EventLoop";
     }
 }
 

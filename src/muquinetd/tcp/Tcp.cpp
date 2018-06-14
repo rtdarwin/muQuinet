@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <list>
 
+#include "muquinetd/IpHeaderOverlay.h"
 #include "muquinetd/Logging.h"
 #include "muquinetd/Pcb.h"
 #include "muquinetd/SocketBuffer.h"
@@ -34,10 +35,11 @@
 using std::unique_ptr;
 using std::make_shared;
 using std::shared_ptr;
+using std::weak_ptr;
 
 struct Tcp::Impl
 {
-    std::list<shared_ptr<Pcb>> pcbs;
+    std::list<weak_ptr<Pcb>> pcbs;
 };
 
 Tcp::Tcp()
@@ -68,7 +70,7 @@ shared_ptr<Pcb>
 Tcp::newPcb()
 {
     const auto& pcb = make_shared<TcpPcb>();
-    _pImpl->pcbs.push_back(pcb);
+    _pImpl->pcbs.push_back(weak_ptr<Pcb>(pcb));
 
     return pcb;
 }
@@ -76,16 +78,50 @@ Tcp::newPcb()
 void
 Tcp::removePcb(const std::shared_ptr<const Pcb>& pcb)
 {
-    std::remove(_pImpl->pcbs.begin(), _pImpl->pcbs.end(), pcb);
+    // TOOD
 }
 
 void
-Tcp::rx(const shared_ptr<SocketBuffer>& skbuf)
+Tcp::rx(const shared_ptr<SocketBuffer>& skbuf_head)
 {
+    /*  1. len & checksum */
+
     // TODO
-}
 
-void
-Tcp::tx()
-{
+    /*  2. demultiplex */
+
+    IpHeaderOverlay* iphdr_ovly = nullptr;
+    TcpHeader* tcphdr = nullptr;
+
+    struct in_addr faddr, laddr;
+    __be16 fport, lport;
+
+    iphdr_ovly = (IpHeaderOverlay*)skbuf_head->network_hdr;
+    tcphdr = (TcpHeader*)skbuf_head->transport_hdr;
+    memcpy(&faddr, &iphdr_ovly->saddr, sizeof(struct in_addr));
+    memcpy(&laddr, &iphdr_ovly->daddr, sizeof(struct in_addr));
+    fport = tcphdr->source;
+    lport = tcphdr->dest;
+
+    shared_ptr<Pcb> pcb;
+    pcb = Pcbs::find(_pImpl->pcbs, faddr, fport, laddr, lport);
+    if (!pcb) {
+        // TODO
+        // ICMP Type3 Destination Unreachable
+        {
+            MUQUINETD_LOG(info) << "No receiver, this TCP packet"
+                                   " {source port = "
+                                << __be16_to_cpu(fport)
+                                << ", dest port = " << __be16_to_cpu(lport)
+                                << "} will be droped ";
+        }
+        return;
+    }
+
+    pcb->recv(skbuf_head);
+    {
+        MUQUINETD_LOG(info) << "TCP Layer Delivered a TCP packet {sport = "
+                            << ntohs(tcphdr->source)
+                            << ", dport = " << ntohs(tcphdr->dest) << "}";
+    }
 }
